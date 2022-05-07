@@ -2,13 +2,21 @@
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
+import { useWeb3 } from "../hooks/useWeb3";
+import { useNavigate } from "react-router-dom";
 
 const navigation = [
   { name: "FAQ", href: "#" },
   { name: "Contact", href: "#" },
 ];
 
-export default function Example() {
+export const Home = () => {
+  const { signAuth } = useWeb3();
+  const navigate = useNavigate()
+  const onConnectWalletClick = async () => {
+    await signAuth();
+    navigate('/admin')
+  };
   return (
     <div className="bg-gray-50">
       <div className="relative overflow-hidden">
@@ -119,12 +127,12 @@ export default function Example() {
                 </div>
                 <div className="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
                   <span className="inline-flex rounded-md shadow">
-                    <a
-                      href="#"
+                    <button
                       className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:text-indigo-500"
+                      onClick={onConnectWalletClick}
                     >
                       Log in with your wallet
-                    </a>
+                    </button>
                   </span>
                 </div>
               </nav>
@@ -170,12 +178,12 @@ export default function Example() {
                       </a>
                     ))}
                   </div>
-                  <a
-                    href="#"
+                  <button
+                    onClick={onConnectWalletClick}
                     className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100 hover:text-indigo-700"
                   >
-                    Log in
-                  </a>
+                    Log in with your wallet
+                  </button>
                 </div>
               </Popover.Panel>
             </Transition>
@@ -194,6 +202,7 @@ export default function Example() {
               <div className="my-8">
                 <button
                   type="button"
+                  onClick={onConnectWalletClick}
                   className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   Log in with your wallet
