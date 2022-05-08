@@ -6,6 +6,11 @@ import {
   ViewListIcon,
 } from "@heroicons/react/solid";
 import { MediaDetailsSidebar } from "../../components/MediaDetailsSidebar";
+import { useDropzone } from "react-dropzone";
+import { useCallback, useState } from "react";
+import { useMutation } from "react-query";
+import { uploadMediaMutation } from "../../api/mutations/medias";
+import { v4 as uuidv4 } from 'uuid';
 
 const tabs = [
   { name: "All Medias", href: "#", current: true },
@@ -23,7 +28,45 @@ const files = [
   // More files...
 ];
 
+interface UploadProgressInfo {
+  id: string;
+  file: File
+  progress: number
+}
+
 export const AdminIndex = () => {
+  const uploadMedias = useMutation(uploadMediaMutation);
+  const [uploadProgressInfoList, setUploadProgressInfoList] = useState<UploadProgressInfo[]>([])
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    acceptedFiles.forEach((file: File) => {
+      const id = uuidv4()
+      setUploadProgressInfoList(infoList => {
+        const info = {
+          id,
+          file,
+          progress: 0,
+        }
+        return [info, ...infoList];
+      })
+      uploadMedias.mutateAsync({
+        file,
+        onUploadProgress: (progressEvent) => {
+          const progress = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgressInfoList(infoList => {
+            const i = infoList.findIndex(info => info.id === id);
+            infoList[i].progress = progress;
+            return infoList;
+          })
+        },
+      });
+    })
+  }, [uploadMedias]);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    noClick: true,
+  });
   const header = (
     <form className="w-full flex md:ml-0" action="#" method="GET">
       <label htmlFor="desktop-search-field" className="sr-only">
@@ -55,8 +98,40 @@ export const AdminIndex = () => {
   );
   return (
     <AdminLayout header={header}>
-      <div className="flex-1 flex items-stretch overflow-hidden">
-        <main className="flex-1 overflow-y-auto">
+      <div
+        className="flex-1 flex items-stretch overflow-hidden"
+      >
+        <main className="flex-1 overflow-y-auto relative h-full" {...getRootProps()}>
+          {isDragActive && (
+            <div className="mt-1 sm:mt-0 sm:col-span-2 h-full w-full absolute z-20 bg-[rgba(255,255,255,0.9)] p-2">
+              <div className="flex justify-center px-6 pt-5 pb-6 border-4 border-gray-300 border-dashed rounded-md h-full">
+                <div className="space-y-1 text-center flex items-center">
+                  <div>
+                    <svg
+                      className="mx-auto h-24 w-24 text-gray-400"
+                      stroke="currentColor"
+                      fill="none"
+                      viewBox="0 0 48 48"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
+                    <div className="flex text-sm text-gray-600">
+                      <p className="pl-1 text-lg">Drop you media file here to start uploading</p>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-2">
+                      Any media file up to 10MB
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           <div className="pt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex">
               <h1 className="flex-1 text-2xl font-bold text-gray-900">
@@ -97,6 +172,7 @@ export const AdminIndex = () => {
                   <option>Favorited</option>
                 </select>
               </div>
+              <input {...getInputProps()} />
               <div className="hidden sm:block">
                 <div className="flex items-center border-b border-gray-200">
                   <nav
@@ -151,6 +227,11 @@ export const AdminIndex = () => {
                 role="list"
                 className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
               >
+                {uploadProgressInfoList.map((info) => (
+                  <div>
+                    {info.file.name}: {info.progress}%
+                  </div>
+                ))}
                 {files.map((file) => (
                   <li key={file.name} className="relative">
                     <div
@@ -192,14 +273,16 @@ export const AdminIndex = () => {
         </main>
 
         {/* Details sidebar */}
-        <MediaDetailsSidebar media={{
-          id: '1234',
-          name: 'My Test',
-          mimetype: 'application/png',
-          sizeInBytes: 1000,
-          ipfsCID: 'QmeWanvFEs619BE4VpkHGg94U4NhbVhRRuHVV2p5cohKtP',
-          createdAt: new Date(),
-        }} />
+        <MediaDetailsSidebar
+          media={{
+            id: "1234",
+            name: "My Test",
+            mimetype: "application/png",
+            sizeInBytes: 1000,
+            ipfsCID: "QmeWanvFEs619BE4VpkHGg94U4NhbVhRRuHVV2p5cohKtP",
+            createdAt: new Date(),
+          }}
+        />
       </div>
     </AdminLayout>
   );
