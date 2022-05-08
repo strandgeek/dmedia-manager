@@ -8,9 +8,12 @@ import {
 import { MediaDetailsSidebar } from "../../components/MediaDetailsSidebar";
 import { useDropzone } from "react-dropzone";
 import { useCallback, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { uploadMediaMutation } from "../../api/mutations/medias";
 import { v4 as uuidv4 } from 'uuid';
+import { MediaCard } from "../../components/MediaCard";
+import { Media } from "../../types/media";
+import { getMedias } from "../../api/queries/medias";
 
 const tabs = [
   { name: "All Medias", href: "#", current: true },
@@ -36,7 +39,15 @@ interface UploadProgressInfo {
 
 export const AdminIndex = () => {
   const uploadMedias = useMutation(uploadMediaMutation);
+  const { data: medias, isLoading, refetch: refetchMedias } = useQuery('medias', getMedias)
   const [uploadProgressInfoList, setUploadProgressInfoList] = useState<UploadProgressInfo[]>([])
+  const removeUploadItemById = (id: string) => {
+    setUploadProgressInfoList(infoList => {
+      const i = infoList.findIndex(info => info.id === id);
+      infoList.splice(i, 1);
+      return [...infoList];
+    })
+  }
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     acceptedFiles.forEach((file: File) => {
       const id = uuidv4()
@@ -57,16 +68,22 @@ export const AdminIndex = () => {
           setUploadProgressInfoList(infoList => {
             const i = infoList.findIndex(info => info.id === id);
             infoList[i].progress = progress;
-            return infoList;
+            return [...infoList];
           })
         },
-      });
+      }).then(res => {
+        removeUploadItemById(id);
+        refetchMedias();
+      })
     })
-  }, [uploadMedias]);
+  }, [refetchMedias, uploadMedias]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     noClick: true,
   });
+  if (isLoading) {
+    return null;
+  }
   const header = (
     <form className="w-full flex md:ml-0" action="#" method="GET">
       <label htmlFor="desktop-search-field" className="sr-only">
@@ -227,12 +244,26 @@ export const AdminIndex = () => {
                 role="list"
                 className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
               >
-                {uploadProgressInfoList.map((info) => (
-                  <div>
-                    {info.file.name}: {info.progress}%
-                  </div>
-                ))}
-                {files.map((file) => (
+                {uploadProgressInfoList.map((info) => {
+                  const media: Media = {
+                    id: info.id,
+                    name: info.file.name,
+                    sizeInBytes: info.file.size,
+                    mimetype: info.file.type,
+                    ipfsCID: '',
+                    createdAt: new Date(),
+                  }
+                  return (
+                    <MediaCard isUploading uploadProgress={info.progress} media={media} />
+                  );
+                })}
+                {medias && medias.map((media) => {
+                  return (
+                    <MediaCard media={media} />
+                  );
+                })}
+
+                {/* {files.map((file) => (
                   <li key={file.name} className="relative">
                     <div
                       className={classNames(
@@ -266,7 +297,7 @@ export const AdminIndex = () => {
                       {file.size}
                     </p>
                   </li>
-                ))}
+                ))} */}
               </ul>
             </section>
           </div>
