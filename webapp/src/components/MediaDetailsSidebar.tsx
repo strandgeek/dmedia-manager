@@ -106,7 +106,7 @@ export const MediaDetailsSidebar: FC<MediaDetailsSidebarProps> = ({
                 <dt className="text-gray-500">Size</dt>
                 <dd className="text-gray-900">{formatSize(media.sizeInBytes)}</dd>
               </div>
-              {resolution && (
+              {resolution && (mediaType === "VIDEO" || mediaType === "IMAGE") && (
                 <div className="py-3 flex justify-between text-sm font-medium">
                   <dt className="text-gray-500">Resolution</dt>
                   <dd className="text-gray-900">{resolution}</dd>

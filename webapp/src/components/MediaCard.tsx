@@ -46,7 +46,7 @@ export const MediaCard: FC<MediaCardProps> = ({
           <video src={cidToGatewayUrl(media.ipfsCID)}></video>
         )}
         {!isUploading && mediaType === "OTHER" && (
-          <div className="p-20 w-full h-full flex items-center">
+          <div className="p-20 w-full h-full flex items-center shrink-0">
             <MediaIcon media={media} />
           </div>
         )}
