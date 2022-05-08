@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { AdminLayout } from "../../layouts/Admin";
 import {
   SearchIcon,
@@ -15,22 +14,6 @@ import { MediaCard } from "../../components/MediaCard";
 import { Media } from "../../types/media";
 import { getMedias } from "../../api/queries/medias";
 
-const tabs = [
-  { name: "All Medias", href: "#", current: true },
-  { name: "Favorited", href: "#", current: false },
-];
-
-const files = [
-  {
-    name: "IMG_4985.HEIC",
-    size: "3.9 MB",
-    source:
-      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    current: true,
-  },
-  // More files...
-];
-
 interface UploadProgressInfo {
   id: string;
   file: File
@@ -38,9 +21,15 @@ interface UploadProgressInfo {
 }
 
 export const AdminIndex = () => {
+  const [currentMedia, setCurrentMedia] = useState<Media | null>(null);
   const uploadMedias = useMutation(uploadMediaMutation);
   const { data: medias, isLoading, refetch: refetchMedias } = useQuery('medias', getMedias)
   const [uploadProgressInfoList, setUploadProgressInfoList] = useState<UploadProgressInfo[]>([])
+  // useEffect(() => {
+  //   if (previewUrl) {
+  //     setToggler(true);
+  //   }
+  // }, [previewUrl])
   const removeUploadItemById = (id: string) => {
     setUploadProgressInfoList(infoList => {
       const i = infoList.findIndex(info => info.id === id);
@@ -77,7 +66,7 @@ export const AdminIndex = () => {
       })
     })
   }, [refetchMedias, uploadMedias]);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, isDragActive } = useDropzone({
     onDrop,
     noClick: true,
   });
@@ -151,9 +140,6 @@ export const AdminIndex = () => {
           )}
           <div className="pt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex">
-              <h1 className="flex-1 text-2xl font-bold text-gray-900">
-                Medias
-              </h1>
               <div className="ml-6 bg-gray-100 p-0.5 rounded-lg flex items-center sm:hidden">
                 <button
                   type="button"
@@ -169,69 +155,6 @@ export const AdminIndex = () => {
                   <ViewGridIconSolid className="h-5 w-5" aria-hidden="true" />
                   <span className="sr-only">Use grid view</span>
                 </button>
-              </div>
-            </div>
-
-            {/* Tabs */}
-            <div className="mt-3 sm:mt-2">
-              <div className="sm:hidden">
-                <label htmlFor="tabs" className="sr-only">
-                  Select a tab
-                </label>
-                {/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
-                <select
-                  id="tabs"
-                  name="tabs"
-                  className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                  defaultValue="All Medias"
-                >
-                  <option>All Medias</option>
-                  <option>Favorited</option>
-                </select>
-              </div>
-              <input {...getInputProps()} />
-              <div className="hidden sm:block">
-                <div className="flex items-center border-b border-gray-200">
-                  <nav
-                    className="flex-1 -mb-px flex space-x-6 xl:space-x-8"
-                    aria-label="Tabs"
-                  >
-                    {tabs.map((tab) => (
-                      <a
-                        key={tab.name}
-                        href={tab.href}
-                        aria-current={tab.current ? "page" : undefined}
-                        className={classNames(
-                          tab.current
-                            ? "border-indigo-500 text-indigo-600"
-                            : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
-                          "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-                        )}
-                      >
-                        {tab.name}
-                      </a>
-                    ))}
-                  </nav>
-                  <div className="hidden ml-6 bg-gray-100 p-0.5 rounded-lg items-center sm:flex">
-                    <button
-                      type="button"
-                      className="p-1.5 rounded-md text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                    >
-                      <ViewListIcon className="h-5 w-5" aria-hidden="true" />
-                      <span className="sr-only">Use list view</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="ml-0.5 bg-white p-1.5 rounded-md shadow-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                    >
-                      <ViewGridIconSolid
-                        className="h-5 w-5"
-                        aria-hidden="true"
-                      />
-                      <span className="sr-only">Use grid view</span>
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -259,7 +182,7 @@ export const AdminIndex = () => {
                 })}
                 {medias && medias.map((media) => {
                   return (
-                    <MediaCard media={media} />
+                    <MediaCard media={media} onClick={() => setCurrentMedia(media)} />
                   );
                 })}
 
@@ -304,16 +227,11 @@ export const AdminIndex = () => {
         </main>
 
         {/* Details sidebar */}
-        <MediaDetailsSidebar
-          media={{
-            id: "1234",
-            name: "My Test",
-            mimetype: "application/png",
-            sizeInBytes: 1000,
-            ipfsCID: "QmeWanvFEs619BE4VpkHGg94U4NhbVhRRuHVV2p5cohKtP",
-            createdAt: new Date(),
-          }}
-        />
+        {currentMedia && (
+          <MediaDetailsSidebar
+            media={currentMedia}
+          />
+        )}
       </div>
     </AdminLayout>
   );

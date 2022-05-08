@@ -1,3 +1,4 @@
+import 'animate.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Route Components

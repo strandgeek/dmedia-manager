@@ -1,26 +1,20 @@
 import { FC } from "react";
 import classNames from "classnames";
-import { sizeFormatter } from "human-readable";
 import { Media } from "../types/media";
 import { cidToGatewayUrl } from "../utils/ipfs";
+import { formatSize } from "../utils/format";
 
 export interface MediaCardProps {
   current?: boolean
   isUploading?: boolean;
   uploadProgress?: number;
   media: Media;
+  onClick?: () => void;
 }
 
-const formatSize = sizeFormatter({
-  std: 'JEDEC', // 'SI' (default) | 'IEC' | 'JEDEC'
-  decimalPlaces: 2,
-  keepTrailingZeroes: false,
-  render: (literal: any, symbol: any) => `${literal} ${symbol}B`,
-})
-
-export const MediaCard: FC<MediaCardProps> = ({ current, isUploading, uploadProgress, media }) => {
+export const MediaCard: FC<MediaCardProps> = ({ current, isUploading, uploadProgress, media, onClick }) => {
   return (
-    <li className="relative">
+    <li className="relative" onClick={onClick}>
       <div
         className={classNames(
           current
