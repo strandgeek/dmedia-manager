@@ -30,6 +30,7 @@ auth.post('/', async (req: Request, res: Response) => {
     await generateUserNonce(address);
     return sendApiError(res, API_ERRORS.UNAUTHORIZED);
   } catch (error) {
+    console.log(error)
     return sendApiError(res, API_ERRORS.INTERNAL_SERVER_ERROR);
   }
 });

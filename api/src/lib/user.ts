@@ -1,6 +1,8 @@
+import { Request, Response } from 'express';
 import { randomUUID } from "crypto";
 import { prisma } from "../db";
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { Project, User } from "@prisma/client";
 
 
 export const generateUserNonce = async (address: string): Promise<string> => {
@@ -19,6 +21,24 @@ export const generateUserNonce = async (address: string): Promise<string> => {
   return user.nonce;
 };
 
+// TODO: Make changes here when we going to support multiple projects
+export const getOrCreateUserProject = async (userId: string): Promise<Project> => {
+  const project = await prisma.project.findFirst({
+    where: {
+      ownerId: userId,
+    }
+  })
+  if (project) {
+    return project
+  }
+  return prisma.project.create({
+    data: {
+      ownerId: userId,
+      createdAt: new Date(),
+    }
+  })
+}
+
 
 export const generateUserAccessToken = async (address: string): Promise<string> => {
   const user = await prisma.user.findUnique({
@@ -35,4 +55,30 @@ export const generateUserAccessToken = async (address: string): Promise<string> 
   } catch (error) {
     throw new Error('Could not sign JWT');
   }
+}
+
+const getBearerToken = (req: Request): string | null => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return null;
+  }
+  if (authHeader.startsWith("Bearer ")){
+    return authHeader.substring(7, authHeader.length);
+  }
+return null;
+}
+
+export const getLoggedUser = async (req: Request): Promise<User | null> => {
+  const accessToken = getBearerToken(req);
+  if (!accessToken || accessToken.length === 0) {
+    return null;
+  }
+  const jwtRes = jwt.verify(accessToken, process.env.JWT_SECRET!) as JwtPayload
+  const userId = jwtRes.id;
+
+  return prisma.user.findFirst({
+    where: {
+      id: userId,
+    }
+  });
 }

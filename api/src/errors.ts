@@ -28,5 +28,10 @@ export const API_ERRORS: {
     key: 'FORBIDDEN',
     status: 403,
     message: 'Forbidden',
+  },
+  BAD_REQUEST: {
+    key: 'BAD_REQUEST',
+    status: 400,
+    message: 'Bad Request',
   }
 }
