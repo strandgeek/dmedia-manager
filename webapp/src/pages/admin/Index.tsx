@@ -8,10 +8,10 @@ import {
 import { MediaDetailsSidebar } from "../../components/MediaDetailsSidebar";
 
 const tabs = [
-  { name: "Recently Viewed", href: "#", current: true },
-  { name: "Recently Added", href: "#", current: false },
+  { name: "All Medias", href: "#", current: true },
   { name: "Favorited", href: "#", current: false },
 ];
+
 const files = [
   {
     name: "IMG_4985.HEIC",
@@ -27,10 +27,10 @@ export const AdminIndex = () => {
   const header = (
     <form className="w-full flex md:ml-0" action="#" method="GET">
       <label htmlFor="desktop-search-field" className="sr-only">
-        Search all files
+        Search all medias
       </label>
       <label htmlFor="mobile-search-field" className="sr-only">
-        Search all files
+        Search all medias
       </label>
       <div className="relative w-full text-gray-400 focus-within:text-gray-600">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
@@ -60,7 +60,7 @@ export const AdminIndex = () => {
           <div className="pt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex">
               <h1 className="flex-1 text-2xl font-bold text-gray-900">
-                Photos
+                Medias
               </h1>
               <div className="ml-6 bg-gray-100 p-0.5 rounded-lg flex items-center sm:hidden">
                 <button
@@ -91,10 +91,9 @@ export const AdminIndex = () => {
                   id="tabs"
                   name="tabs"
                   className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                  defaultValue="Recently Viewed"
+                  defaultValue="All Medias"
                 >
-                  <option>Recently Viewed</option>
-                  <option>Recently Added</option>
+                  <option>All Medias</option>
                   <option>Favorited</option>
                 </select>
               </div>

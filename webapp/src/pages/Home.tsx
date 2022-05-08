@@ -18,7 +18,7 @@ export const Home = () => {
     navigate('/admin')
   };
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 overflow-y-scroll h-full">
       <div className="relative overflow-hidden">
         <div className="absolute inset-y-0 h-full w-full" aria-hidden="true">
           <div className="relative h-full">

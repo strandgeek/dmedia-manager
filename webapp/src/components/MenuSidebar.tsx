@@ -1,16 +1,12 @@
 import { Transition, Dialog } from "@headlessui/react";
-import { HomeIcon, PhotographIcon, UserGroupIcon, CollectionIcon, CogIcon, XIcon,   ViewGridIcon as ViewGridIconOutline, } from "@heroicons/react/outline";
+import { PhotographIcon, CogIcon, XIcon, } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { FC, Fragment } from "react";
 
 const navigation = [
-  { name: 'Home', href: '#', icon: HomeIcon, current: false },
-  { name: 'All Files', href: '#', icon: ViewGridIconOutline, current: false },
-  { name: 'Photos', href: '#', icon: PhotographIcon, current: true },
-  { name: 'Shared', href: '#', icon: UserGroupIcon, current: false },
-  { name: 'Albums', href: '#', icon: CollectionIcon, current: false },
+  { name: 'Medias', href: '#', icon: PhotographIcon, current: true },
   { name: 'Settings', href: '#', icon: CogIcon, current: false },
-]
+];
 
 interface MenuSidebarProps {
   mobileMenuOpen: boolean;

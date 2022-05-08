@@ -3,7 +3,6 @@ import {
 } from "@heroicons/react/outline";
 import {
   PencilIcon,
-  PlusSmIcon as PlusSmIconSolid,
 } from "@heroicons/react/solid";
 import { FC } from "react";
 import { Media } from "../types/media";
