@@ -1,5 +1,7 @@
 import 'animate.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 // Route Components
 import { AdminIndex } from "./pages/admin/Index";
@@ -12,6 +14,7 @@ import { ReactQueryProvider } from "./providers/ReactQuery";
 function App() {
   return (
     <ReactQueryProvider>
+      <ToastContainer />
       <Web3Provider>
         <BrowserRouter>
           <Routes>

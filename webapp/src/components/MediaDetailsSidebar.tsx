@@ -1,10 +1,15 @@
 import { PencilIcon } from "@heroicons/react/solid";
 import { FC, useState } from "react";
 import { Media } from "../types/media";
-import { formatSize } from "../utils/format";
+import { formatDuration, formatSize } from "../utils/format";
 import { cidToGatewayUrl } from "../utils/ipfs";
 import Lightbox from "react-awesome-lightbox";
 import "react-awesome-lightbox/build/style.css";
+import { ClipboardCopyIcon, DuplicateIcon, SearchIcon } from "@heroicons/react/outline";
+import { toast } from "react-toastify";
+import { getMediaType } from "../utils/media";
+import { FileIcon } from 'react-file-icon';
+import { MediaIcon } from "./MediaIcon";
 
 interface MediaDetailsSidebarProps {
   media: Media;
@@ -14,6 +19,24 @@ export const MediaDetailsSidebar: FC<MediaDetailsSidebarProps> = ({
   media,
 }) => {
   const [showPreview, setShowPreview] = useState(false);
+  const [resolution, setResolution] = useState<string | null>(null);
+  const [duration, setDuration] = useState<string | null>(null);
+  const URI = `ipfs://${media.ipfsCID}`;
+  const copyURIToClipboard = () => {
+    navigator.clipboard.writeText(URI);
+    toast.success('IPFS URI copied to clipboard');
+  }
+  const mediaType = getMediaType(media);
+  const onVideoLoadedMetadata = (e: any) => {
+    const width = e.target.videoWidth;
+    const height = e.target.videoHeight;
+    setResolution(`${width}x${height}`);
+    setDuration(formatDuration(e.target.duration) as any);
+  }
+  const onImageLoad = (e: any) => {
+    console.log(e.target)
+    setResolution(`${e.target.naturalWidth}x${e.target.naturalHeight}`);
+  }
   return (
     <>
     {showPreview && (
@@ -29,13 +52,29 @@ export const MediaDetailsSidebar: FC<MediaDetailsSidebarProps> = ({
         
         <div className="pb-16 space-y-6">
           <div>
-            <div className="block w-full aspect-w-10 aspect-h-7 rounded-lg overflow-hidden">
-              <img
-                src={cidToGatewayUrl(media.ipfsCID)}
-                alt={media.name}
-                className="object-cover"
-                onClick={() => setShowPreview(true)}
-              />
+            <div className="group block w-full aspect-w-10 aspect-h-7 rounded-lg overflow-hidden bg-gray-200 relative">
+              {mediaType === 'IMAGE' && (
+                <>                
+                  <img
+                    src={cidToGatewayUrl(media.ipfsCID)}
+                    alt={media.name}
+                    className="object-contain cursor-pointer"
+                    onClick={() => setShowPreview(true)}
+                    onLoad={onImageLoad}
+                  />
+                  <div onClick={() => setShowPreview(true)} className="w-full h-full absolute flex items-center justify-center bg-[rgba(0,0,0,0.5)] cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
+                    <SearchIcon className="w-12 h-12 text-white" />
+                  </div>
+                </>
+              )}
+              {mediaType === 'VIDEO' && (
+                <video src={cidToGatewayUrl(media.ipfsCID)} controls onLoadedMetadata={onVideoLoadedMetadata}></video>
+              )}
+              {mediaType === 'OTHER' && (
+                <div className="p-24 w-full h-full flex items-center">
+                  <MediaIcon media={media} />
+                </div>
+              )}
             </div>
             <div className="mt-4 flex items-start justify-between">
               <div>
@@ -67,21 +106,32 @@ export const MediaDetailsSidebar: FC<MediaDetailsSidebarProps> = ({
                 <dt className="text-gray-500">Size</dt>
                 <dd className="text-gray-900">{formatSize(media.sizeInBytes)}</dd>
               </div>
-              {/* <div className="py-3 flex justify-between text-sm font-medium">
-                <dt className="text-gray-500">CID</dt>
-                <dd className="text-gray-900">{media.ipfsCID}</dd>
-              </div> */}
-              {/* {Object.keys(currentFile.information).map((key) => (
-              <div
-                key={key}
-                className="py-3 flex justify-between text-sm font-medium"
-              >
-                <dt className="text-gray-500">{key}</dt>
-                <dd className="text-gray-900">
-                  {(currentFile as any).information[key]}
+              {resolution && (
+                <div className="py-3 flex justify-between text-sm font-medium">
+                  <dt className="text-gray-500">Resolution</dt>
+                  <dd className="text-gray-900">{resolution}</dd>
+                </div>
+              )}
+              {duration && mediaType === "VIDEO" && (
+                <div className="py-3 flex justify-between text-sm font-medium">
+                  <dt className="text-gray-500">Duration</dt>
+                  <dd className="text-gray-900">{duration}</dd>
+                </div>
+              )}
+              <div className="py-3 flex justify-between text-sm font-medium">
+                <dt className="text-gray-500">URI</dt>
+                <dd className="text-gray-900 flex max-w-full px-6">
+                  <div className="overflow-hidden text-ellipsis whitespace-nowrap mx-2">
+                    {URI}
+                  </div>
+                  <div>
+                    <DuplicateIcon
+                      onClick={() => copyURIToClipboard()}
+                      className="w-4 h-4 text-gray-400 cursor-pointer"
+                    />
+                  </div>
                 </dd>
               </div>
-            ))} */}
             </dl>
           </div>
           <div>

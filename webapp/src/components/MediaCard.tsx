@@ -3,16 +3,25 @@ import classNames from "classnames";
 import { Media } from "../types/media";
 import { cidToGatewayUrl } from "../utils/ipfs";
 import { formatSize } from "../utils/format";
+import { getMediaType } from "../utils/media";
+import { MediaIcon } from "./MediaIcon";
 
 export interface MediaCardProps {
-  current?: boolean
+  current?: boolean;
   isUploading?: boolean;
   uploadProgress?: number;
   media: Media;
   onClick?: () => void;
 }
 
-export const MediaCard: FC<MediaCardProps> = ({ current, isUploading, uploadProgress, media, onClick }) => {
+export const MediaCard: FC<MediaCardProps> = ({
+  current,
+  isUploading,
+  uploadProgress,
+  media,
+  onClick,
+}) => {
+  const mediaType = getMediaType(media);
   return (
     <li className="relative" onClick={onClick}>
       <div
@@ -20,18 +29,26 @@ export const MediaCard: FC<MediaCardProps> = ({ current, isUploading, uploadProg
           current
             ? "ring-2 ring-offset-2 ring-indigo-500"
             : "focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500",
-          "group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden"
+          "group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-200 overflow-hidden"
         )}
       >
-        {!isUploading && (
+        {!isUploading && mediaType === "IMAGE" && (
           <img
             src={cidToGatewayUrl(media.ipfsCID)}
             alt={media.name}
             className={classNames(
               current ? "" : "group-hover:opacity-75",
-              "object-cover pointer-events-none"
+              "object-contain pointer-events-none"
             )}
           />
+        )}
+        {!isUploading && mediaType === "VIDEO" && (
+          <video src={cidToGatewayUrl(media.ipfsCID)}></video>
+        )}
+        {!isUploading && mediaType === "OTHER" && (
+          <div className="p-20 w-full h-full flex items-center">
+            <MediaIcon media={media} />
+          </div>
         )}
         {isUploading && (
           <div className="object-cover pointer-events-none flex items-center text-center justify-center">
@@ -40,7 +57,10 @@ export const MediaCard: FC<MediaCardProps> = ({ current, isUploading, uploadProg
                 Uploading {uploadProgress}%...
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
-                <div className="bg-blue-600 h-2 rounded-full" style={{ width: `${uploadProgress}%` }}></div>
+                <div
+                  className="bg-blue-600 h-2 rounded-full"
+                  style={{ width: `${uploadProgress}%` }}
+                ></div>
               </div>
             </div>
           </div>
