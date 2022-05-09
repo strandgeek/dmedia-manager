@@ -1,0 +1,76 @@
+Arguments: 
+  /Users/carlosstrand/.nvm/versions/node/v16.13.1/bin/node /opt/homebrew/Cellar/yarn/1.22.17_2/libexec/bin/yarn.js
+
+PATH: 
+  /Users/carlosstrand/Downloads/google-cloud-sdk/bin:/Users/carlosstrand/.pyenv/shims:/Users/carlosstrand/.gvm/bin:/Users/carlosstrand/.nvm/versions/node/v16.13.1/bin:/Users/carlosstrand/.rbenv/shims:/Users/carlosstrand/.local/share/solana/install/active_release/bin:/opt/homebrew/bin:/Users/carlosstrand/.pyenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/usr/local/go/bin:/Users/carlosstrand/go/bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.13.1
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  SyntaxError: /Users/carlosstrand/workspace/carlosstrand/strandgeek/dmedia-manager/web/packages/react-dmedia-manager/package.json: Unexpected token } in JSON at position 424
+      at JSON.parse (<anonymous>)
+      at /opt/homebrew/Cellar/yarn/1.22.17_2/libexec/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/opt/homebrew/Cellar/yarn/1.22.17_2/libexec/lib/cli.js:310:30)
+      at /opt/homebrew/Cellar/yarn/1.22.17_2/libexec/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "react-dmedia-manager",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./lib/cjs/index.js",
+    "module": "./lib/esm/index.js",
+    "types": "./lib/esm/index.d.ts",
+    "files": [
+      "/lib"
+    ],
+    "scripts": {
+      "prepack": "yarn build",
+      "build": "rollup -c",
+      "watch": "rollup -cw"
+    },
+    "author": "",
+    "license": "ISC",
+    "peerDependencies": {
+      "react": "^18.1.0",
+      "react-dom": "^18.1.0",
+    },
+    "devDependencies": {
+      "@rollup/plugin-commonjs": "^22.0.0",
+      "@rollup/plugin-json": "^4.1.0",
+      "@rollup/plugin-node-resolve": "^13.3.0",
+      "@types/react-file-icon": "^1.0.1",
+      "autoprefixer": "^10.4.7",
+      "node-sass": "^7.0.1",
+      "postcss": "^8.4.13",
+      "rollup": "^2.72.1",
+      "rollup-plugin-postcss": "^4.0.2",
+      "rollup-plugin-typescript2": "^0.31.2",
+      "typescript": "^4.6.4"
+    },
+    "dependencies": {
+      "@heroicons/react": "^1.0.6",
+      "classnames": "^2.3.1",
+      "format-duration": "^2.0.0",
+      "human-readable": "^0.2.1",
+      "react-awesome-lightbox": "^1.8.1",
+      "react-dropzone": "^14.2.1",
+      "react-file-icon": "^1.1.0",
+      "react-toastify": "^9.0.1",
+      "react-query": "^3.39.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -2,8 +2,7 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "packages": [
-    "packages/*",
-    "webapp/*"
+    "packages/*"
   ],
   "version": "0.0.0"
 }

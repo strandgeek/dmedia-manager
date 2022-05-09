@@ -1,2 +1,4 @@
-export { default as Hello } from './components/hello'; // export the default export from './hello', this is Hello component
-export * from './components/hello'; // export all named exports from './hello' like HelloProps
+import './index.css'
+export * from './components/MediaGallery';
+export * from './components/MediaCard';
+export * from './components/MediaIcon';
