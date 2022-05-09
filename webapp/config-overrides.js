@@ -1,3 +1,7 @@
+const path = require('path');
+const { removeModuleScopePlugin, babelInclude, addWebpackAlias } = require("customize-cra");
+
+
 module.exports = function override(config) {
   const fallback = config.resolve.fallback || {};
   Object.assign(fallback, {
@@ -10,6 +14,15 @@ module.exports = function override(config) {
       "url": require.resolve("url")
   })
   config.resolve.fallback = fallback;
+
+  config = removeModuleScopePlugin()(config);
+  config = babelInclude([
+    path.resolve("src"),
+    path.resolve("../common/src"),
+  ])(config)
+  config = addWebpackAlias({
+    '@common': path.resolve(__dirname, '../common/src')
+  })(config)
 
   return config;
 }

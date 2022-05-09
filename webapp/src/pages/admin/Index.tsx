@@ -10,7 +10,7 @@ import { useCallback, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { uploadMediaMutation } from "../../api/mutations/medias";
 import { v4 as uuidv4 } from 'uuid';
-import { MediaCard } from "../../components/MediaCard";
+import { MediaCard } from "@common/components/MediaCard"
 import { Media } from "../../types/media";
 import { getMedias } from "../../api/queries/medias";
 
