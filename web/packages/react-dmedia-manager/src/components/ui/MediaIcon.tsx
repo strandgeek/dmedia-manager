@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { FileIcon, defaultStyles, DefaultExtensionType } from "react-file-icon"
-import { Media } from "../types/media"
+import { Media } from "../../types/media"
 
 interface MediaIconProps {
   media: Media

@@ -1,79 +1,14 @@
 import { AdminLayout } from "../../layouts/Admin";
 import {
   SearchIcon,
-  ViewGridIcon as ViewGridIconSolid,
-  ViewListIcon,
 } from "@heroicons/react/solid";
-import { MediaDetailsSidebar } from "../../components/MediaDetailsSidebar";
-import { useDropzone } from "react-dropzone";
-import { useCallback, useState } from "react";
-import { useMutation, useQuery } from "react-query";
-import { uploadMediaMutation } from "../../api/mutations/medias";
-import { v4 as uuidv4 } from 'uuid';
-import { MediaGallery } from "react-dmedia-manager"
+import { useState } from "react";
+import { UI } from "react-dmedia-manager"
 import { Media } from "../../types/media";
-import { getMedias } from "../../api/queries/medias";
-import { MenuSidebar } from "src/components/MenuSidebar";
 
-interface UploadProgressInfo {
-  id: string;
-  file: File
-  progress: number
-}
 
 export const AdminIndex = () => {
   const [currentMedia, setCurrentMedia] = useState<Media | null>(null);
-  const uploadMedias = useMutation(uploadMediaMutation);
-  const { data: medias, isLoading, refetch: refetchMedias } = useQuery('medias', getMedias)
-  const [uploadProgressInfoList, setUploadProgressInfoList] = useState<UploadProgressInfo[]>([])
-  // useEffect(() => {
-  //   if (previewUrl) {
-  //     setToggler(true);
-  //   }
-  // }, [previewUrl])
-  const removeUploadItemById = (id: string) => {
-    setUploadProgressInfoList(infoList => {
-      const i = infoList.findIndex(info => info.id === id);
-      infoList.splice(i, 1);
-      return [...infoList];
-    })
-  }
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    acceptedFiles.forEach((file: File) => {
-      const id = uuidv4()
-      setUploadProgressInfoList(infoList => {
-        const info = {
-          id,
-          file,
-          progress: 0,
-        }
-        return [info, ...infoList];
-      })
-      uploadMedias.mutateAsync({
-        file,
-        onUploadProgress: (progressEvent) => {
-          const progress = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          setUploadProgressInfoList(infoList => {
-            const i = infoList.findIndex(info => info.id === id);
-            infoList[i].progress = progress;
-            return [...infoList];
-          })
-        },
-      }).then(res => {
-        removeUploadItemById(id);
-        refetchMedias();
-      })
-    })
-  }, [refetchMedias, uploadMedias]);
-  const { getRootProps, isDragActive } = useDropzone({
-    onDrop,
-    noClick: true,
-  });
-  if (isLoading) {
-    return null;
-  }
   const header = (
     <form className="w-full flex md:ml-0" action="#" method="GET">
       <label htmlFor="desktop-search-field" className="sr-only">
@@ -105,7 +40,7 @@ export const AdminIndex = () => {
   );
   return (
     <AdminLayout header={header}>
-      <MediaGallery />
+      <UI.MediaGallery currentMedia={currentMedia} setCurrentMedia={setCurrentMedia} />
     </AdminLayout>
   );
 };

@@ -68,7 +68,7 @@ const getBearerToken = (req: Request): string | null => {
 return null;
 }
 
-export const getLoggedUser = async (req: Request): Promise<User | null> => {
+export const getLoggedUser = async (req: Request<any>): Promise<User | null> => {
   const accessToken = getBearerToken(req);
   if (!accessToken || accessToken.length === 0) {
     return null;

@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import classNames from "classnames";
-import { Media } from "../types/media";
-import { cidToGatewayUrl } from "../utils/ipfs";
-import { formatSize } from "../utils/format";
-import { getMediaType } from "../utils/media";
+import { Media } from "../../types/media";
+import { cidToGatewayUrl } from "../../utils/ipfs";
+import { formatSize } from "../../utils/format";
+import { getMediaType } from "../../utils/media";
 import { MediaIcon } from "./MediaIcon";
 
 export interface MediaCardProps {
@@ -46,7 +46,7 @@ export const MediaCard: FC<MediaCardProps> = ({
           <video src={cidToGatewayUrl(media.ipfsCID)}></video>
         )}
         {!isUploading && mediaType === "OTHER" && (
-          <div className="dm-p-20 dm-w-full dm-h-full dm-flex dm-items-center shrink-0">
+          <div className="dm-p-[30%] dm-w-full dm-h-full dm-flex dm-items-center shrink-0">
             <MediaIcon media={media} />
           </div>
         )}

@@ -5,6 +5,7 @@ import { prisma } from "../db";
 import { API_ERRORS, sendApiError } from "../errors";
 import { ipfs } from "../lib/ipfs";
 import { getLoggedUser, getOrCreateUserProject } from "../lib/user";
+import { withPage } from "../utils/prisma";
 
 export const medias = express.Router()
 
@@ -59,7 +60,8 @@ medias.get('/', async (req: Request, res: Response) => {
     },
     orderBy: {
       createdAt: 'desc',
-    }
+    },
+    ...withPage(req),
   })
   return res.json({ medias });
 });

@@ -1,21 +1,22 @@
-import { PencilIcon } from "@heroicons/react/solid";
 import { FC, useState } from "react";
-import { Media } from "../types/media";
-import { formatDuration, formatSize } from "../utils/format";
-import { cidToGatewayUrl } from "../utils/ipfs";
+import { Media } from "../../types/media";
+import { formatDuration, formatSize } from "../../utils/format";
+import { cidToGatewayUrl } from "../../utils/ipfs";
 import Lightbox from "react-awesome-lightbox";
 // import "react-awesome-lightbox/build/style.css";
 import { DuplicateIcon, SearchIcon } from "@heroicons/react/outline";
 import { toast } from "react-toastify";
-import { getMediaType } from "../utils/media";
+import { getMediaType } from "../../utils/media";
 import { MediaIcon } from "./MediaIcon";
 
 interface MediaDetailsSidebarProps {
   media: Media;
+  footer?: React.ReactNode;
 }
 
 export const MediaDetailsSidebar: FC<MediaDetailsSidebarProps> = ({
   media,
+  footer,
 }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [resolution, setResolution] = useState<string | null>(null);
@@ -47,9 +48,9 @@ export const MediaDetailsSidebar: FC<MediaDetailsSidebarProps> = ({
           alt={media.name}
         />
       </div> */}
-      <aside className="dm-hidden dm-w-96 dm-bg-white dm-p-8 dm-border-l dm-border-gray-200 dm-overflow-y-auto lg:dm-block animate__animated animate__slideInRight animate__faster dm-static">
+      <aside className="dm-hidden dm-w-96 dm-bg-white dm-p-8 dm-pb-0 dm-border-l dm-border-gray-200 dm-overflow-y-auto lg:dm-block animate__animated animate__slideInRight animate__faster dm-static">
         
-        <div className="dm-pb-16 dm-space-y-6">
+        <div className="dm-space-y-6">
           <div>
             <div className="group dm-block dm-w-full dm-aspect-w-10 dm-aspect-h-7 dm-rounded-lg dm-overflow-hidden dm-bg-gray-200 dm-relative">
               {mediaType === 'IMAGE' && (
@@ -77,13 +78,10 @@ export const MediaDetailsSidebar: FC<MediaDetailsSidebarProps> = ({
             </div>
             <div className="dm-mt-4 dm-flex dm-items-start dm-justify-between">
               <div>
-                <h2 className="dm-text-lg dm-font-medium dm-text-gray-900">
+                <h2 className="dm-text-lg dm-font-medium dm-text-gray-900 dm-min-h-[80px]">
                   <span className="dm-sr-only">Details for </span>
                   {media.name}
                 </h2>
-                <p className="dm-text-sm dm-font-medium dm-text-gray-500">
-                  {media.sizeInBytes}
-                </p>
               </div>
               {/* <button
                 type="button"
@@ -94,7 +92,7 @@ export const MediaDetailsSidebar: FC<MediaDetailsSidebarProps> = ({
               </button> */}
             </div>
           </div>
-          <div>
+          <div className="dm-min-h-[260px]">
             <h3 className="dm-font-medium dm-text-gray-900">Information</h3>
             <dl className="dm-mt-2 dm-border-t dm-border-b dm-border-gray-200 dm-divide-y dm-divide-gray-200">
               <div className="dm-py-3 dm-flex dm-justify-between dm-text-sm dm-font-medium">
@@ -133,34 +131,8 @@ export const MediaDetailsSidebar: FC<MediaDetailsSidebarProps> = ({
               </div>
             </dl>
           </div>
-          <div>
-            <h3 className="dm-font-medium dm-text-gray-900">Description</h3>
-            <div className="dm-mt-2 dm-flex dm-items-center dm-justify-between">
-              <p className="dm-text-sm dm-text-gray-500 dm-italic">
-                Add a description to this image.
-              </p>
-              <button
-                type="button"
-                className="dm-bg-white dm-rounded-full dm-h-8 dm-w-8 dm-flex dm-items-center dm-justify-center dm-text-gray-400 hover:dm-bg-gray-100 hover:dm-text-gray-500 focus:dm-outline-none focus:dm-ring-2 focus:dm-ring-indigo-500"
-              >
-                <PencilIcon className="dm-h-5 dm-w-5" aria-hidden="true" />
-                <span className="dm-sr-only">Add description</span>
-              </button>
-            </div>
-          </div>
-          <div className="dm-flex">
-            <button
-              type="button"
-              className="dm-flex-1 dm-bg-indigo-600 dm-py-2 dm-px-4 dm-border dm-border-transparent dm-rounded-md dm-shadow-sm dm-text-sm dm-font-medium dm-text-white hover:dm-bg-indigo-700 focus:dm-outline-none focus:dm-ring-2 focus:dm-ring-offset-2 focus:dm-ring-indigo-500"
-            >
-              Download
-            </button>
-            <button
-              type="button"
-              className="dm-flex-1 dm-ml-3 dm-bg-white dm-py-2 dm-px-4 dm-border dm-border-gray-300 dm-rounded-md dm-shadow-sm dm-text-sm dm-font-medium dm-text-gray-700 hover:dm-bg-gray-50 focus:dm-outline-none focus:dm-ring-2 focus:dm-ring-offset-2 focus:dm-ring-indigo-500"
-            >
-              Delete
-            </button>
+          <div className="dm-pb-2">
+            {footer}
           </div>
         </div>
       </aside>

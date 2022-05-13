@@ -2,16 +2,15 @@ import {
   ViewGridIcon as ViewGridIconSolid,
   ViewListIcon,
 } from "@heroicons/react/solid";
-import { MediaDetailsSidebar } from "../components/MediaDetailsSidebar";
+import { MediaDetailsSidebar } from "./MediaDetailsSidebar";
 import { useDropzone } from "react-dropzone";
-import { useCallback, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import { uploadMediaMutation } from "../api/mutations/medias";
+import { uploadMediaMutation } from "../../api/mutations/medias";
 import { v4 as uuidv4 } from "uuid";
-import { MediaCard } from "react-dmedia-manager";
-import { Media } from "../types/media";
-import { getMedias } from "../api/queries/medias";
-import { ReactQueryProvider } from "../providers/ReactQuery";
+import { MediaCard } from "../ui/MediaCard";
+import { Media } from "../../types/media";
+import { getMedias } from "../../api/queries/medias";
 
 interface UploadProgressInfo {
   id: string;
@@ -19,22 +18,27 @@ interface UploadProgressInfo {
   progress: number;
 }
 
-export const MediaGalleryBase = () => {
-  const [currentMedia, setCurrentMedia] = useState<Media | null>(null);
+export interface MediaGalleryProps {
+  sidebarFooter?: React.ReactNode;
+  currentMedia?: Media | null;
+  setCurrentMedia: React.Dispatch<React.SetStateAction<Media | null>>
+}
+
+export const MediaGallery: FC<MediaGalleryProps> = ({ sidebarFooter, currentMedia, setCurrentMedia }) => {
   const uploadMedias = useMutation(uploadMediaMutation);
   const {
     data: medias,
     isLoading,
     refetch: refetchMedias,
   } = useQuery("medias", getMedias);
+  useEffect(() => {
+    if (medias && medias.length > 0) {
+      setCurrentMedia(medias[0]);
+    }
+  }, [medias])
   const [uploadProgressInfoList, setUploadProgressInfoList] = useState<
     UploadProgressInfo[]
   >([]);
-  // useEffect(() => {
-  //   if (previewUrl) {
-  //     setToggler(true);
-  //   }
-  // }, [previewUrl])
   const removeUploadItemById = (id: string) => {
     setUploadProgressInfoList((infoList) => {
       const i = infoList.findIndex((info) => info.id === id);
@@ -218,16 +222,7 @@ export const MediaGalleryBase = () => {
       </main>
 
       {/* Details sidebar */}
-      {currentMedia && <MediaDetailsSidebar media={currentMedia} />}
+      {currentMedia && <MediaDetailsSidebar media={currentMedia} footer={sidebarFooter} />}
     </div>
   );
 };
-
-
-export const MediaGallery = () => {
-  return (
-      <ReactQueryProvider>
-        <MediaGalleryBase />
-      </ReactQueryProvider>
-  )
-}
