@@ -84,18 +84,18 @@ export const MediaGalleryBase = () => {
     return null;
   }
   return (
-    <div className="flex-1 flex items-stretch overflow-hidden">
+    <div className="dm-flex-1 dm-flex dm-items-stretch dm-overflow-hidden">
       <main
-        className="flex-1 overflow-y-auto relative h-full"
+        className="dm-flex-1 dm-overflow-y-auto dm-relative dm-h-full"
         {...getRootProps()}
       >
         {isDragActive && (
-          <div className="mt-1 sm:mt-0 sm:col-span-2 h-full w-full absolute z-20 bg-[rgba(255,255,255,0.9)] p-2">
-            <div className="flex justify-center px-6 pt-5 pb-6 border-4 border-gray-300 border-dashed rounded-md h-full">
-              <div className="space-y-1 text-center flex items-center">
+          <div className="dm-mt-1 sm:dm-mt-0 sm:dm-col-span-2 dm-h-full dm-w-full dm-absolute dm-z-20 bg-[rgba(255,255,255,0.9)] dm-p-2">
+            <div className="dm-flex dm-justify-center dm-px-6 dm-pt-5 dm-pb-6 dm-border-4 dm-border-gray-300 dm-border-dashed dm-rounded-md dm-h-full">
+              <div className="dm-space-y-1 dm-text-center dm-flex dm-items-center">
                 <div>
                   <svg
-                    className="mx-auto h-24 w-24 text-gray-400"
+                    className="dm-mx-auto dm-h-24 dm-w-24 dm-text-gray-400"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 48 48"
@@ -108,12 +108,12 @@ export const MediaGalleryBase = () => {
                       stroke-linejoin="round"
                     ></path>
                   </svg>
-                  <div className="flex text-sm text-gray-600">
-                    <p className="pl-1 text-lg">
+                  <div className="dm-flex dm-text-sm dm-text-gray-600">
+                    <p className="dm-pl-1 dm-text-lg">
                       Drop you media file here to start uploading
                     </p>
                   </div>
-                  <p className="text-sm text-gray-500 mt-2">
+                  <p className="dm-text-sm dm-text-gray-500 dm-mt-2">
                     Any media file up to 10MB
                   </p>
                 </div>
@@ -121,34 +121,34 @@ export const MediaGalleryBase = () => {
             </div>
           </div>
         )}
-        <div className="pt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex">
-            <div className="ml-6 bg-gray-100 p-0.5 rounded-lg flex items-center sm:hidden">
+        <div className="dm-pt-8 dm-max-w-7xl dm-mx-auto dm-px-4 sm:dm-px-6 lg:dm-px-8">
+          <div className="dm-flex">
+            <div className="dm-ml-6 dm-bg-gray-100 dm-p-0.5 dm-rounded-lg dm-flex dm-items-center sm:dm-hidden">
               <button
                 type="button"
-                className="p-1.5 rounded-md text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                className="dm-p-1.5 dm-rounded-md dm-text-gray-400 hover:dm-bg-white hover:dm-shadow-sm focus:dm-outline-none focus:dm-ring-2 focus:dm-ring-inset focus:dm-ring-indigo-500"
               >
-                <ViewListIcon className="h-5 w-5" aria-hidden="true" />
-                <span className="sr-only">Use list view</span>
+                <ViewListIcon className="dm-h-5 dm-w-5" aria-hidden="true" />
+                <span className="dm-sr-only">Use list view</span>
               </button>
               <button
                 type="button"
-                className="ml-0.5 bg-white p-1.5 rounded-md shadow-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                className="dm-ml-0.5 dm-bg-white dm-p-1.5 dm-rounded-md dm-shadow-sm dm-text-gray-400 focus:dm-outline-none focus:dm-ring-2 focus:dm-ring-inset focus:dm-ring-indigo-500"
               >
-                <ViewGridIconSolid className="h-5 w-5" aria-hidden="true" />
-                <span className="sr-only">Use grid view</span>
+                <ViewGridIconSolid className="dm-h-5 dm-w-5" aria-hidden="true" />
+                <span className="dm-sr-only">Use dm-grid view</span>
               </button>
             </div>
           </div>
 
           {/* Gallery */}
-          <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
-            <h2 id="gallery-heading" className="sr-only">
+          <section className="dm-mt-8 dm-pb-16" aria-labelledby="gallery-heading">
+            <h2 id="gallery-heading" className="dm-sr-only">
               Recently viewed
             </h2>
             <ul
               role="list"
-              className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
+              className="dm-grid dm-grid-cols-2 dm-gap-x-4 dm-gap-y-8 sm:dm-grid-cols-3 sm:dm-gap-x-6 md:dm-grid-cols-4 lg:dm-grid-cols-3 xl:dm-grid-cols-4 xl:dm-gap-x-8"
             >
               {uploadProgressInfoList.map((info) => {
                 const media: Media = {
@@ -178,36 +178,36 @@ export const MediaGalleryBase = () => {
                 })}
 
               {/* {files.map((file) => (
-              <li key={file.name} className="relative">
+              <li key={file.name} className="dm-relative">
                 <div
                   className={classNames(
                     file.current
-                      ? "ring-2 ring-offset-2 ring-indigo-500"
-                      : "focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500",
-                    "group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden"
+                      ? "dm-ring-2 dm-ring-offset-2 dm-ring-indigo-500"
+                      : "focus-within:dm-ring-2 focus-within:dm-ring-offset-2 focus-within:dm-ring-offset-gray-100 focus-within:dm-ring-indigo-500",
+                    "group dm-block dm-w-full aspect-w-10 aspect-h-7 dm-rounded-lg dm-bg-gray-100 dm-overflow-hidden"
                   )}
                 >
                   <img
                     src={file.source}
                     alt=""
                     className={classNames(
-                      file.current ? "" : "group-hover:opacity-75",
-                      "object-cover pointer-events-none"
+                      file.current ? "" : "group-hover:dm-opacity-75",
+                      "dm-object-cover dm-pointer-events-none"
                     )}
                   />
                   <button
                     type="button"
-                    className="absolute inset-0 focus:outline-none"
+                    className="dm-absolute dm-inset-0 focus:dm-outline-none"
                   >
-                    <span className="sr-only">
+                    <span className="dm-sr-only">
                       View details for {file.name}
                     </span>
                   </button>
                 </div>
-                <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
+                <p className="dm-mt-2 dm-block dm-text-sm dm-font-medium dm-text-gray-900 dm-truncate dm-pointer-events-none">
                   {file.name}
                 </p>
-                <p className="block text-sm font-medium text-gray-500 pointer-events-none">
+                <p className="dm-block dm-text-sm dm-font-medium dm-text-gray-500 dm-pointer-events-none">
                   {file.size}
                 </p>
               </li>
@@ -227,9 +227,7 @@ export const MediaGalleryBase = () => {
 export const MediaGallery = () => {
   return (
       <ReactQueryProvider>
-        <div id="dmedia">
         <MediaGalleryBase />
-        </div>
       </ReactQueryProvider>
   )
 }

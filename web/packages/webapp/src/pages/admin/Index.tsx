@@ -105,9 +105,7 @@ export const AdminIndex = () => {
   );
   return (
     <AdminLayout header={header}>
-      <div id="dmedia">
-        <MediaGallery />
-      </div>
+      <MediaGallery />
     </AdminLayout>
   );
 };

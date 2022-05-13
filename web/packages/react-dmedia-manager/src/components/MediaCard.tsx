@@ -23,13 +23,13 @@ export const MediaCard: FC<MediaCardProps> = ({
 }) => {
   const mediaType = getMediaType(media);
   return (
-    <li className="relative" onClick={onClick}>
+    <li className="dm-relative" onClick={onClick}>
       <div
         className={classNames(
           current
-            ? "ring-2 ring-offset-2 ring-indigo-500"
-            : "focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500",
-          "group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-200 overflow-hidden"
+            ? "dm-ring-2 dm-ring-offset-2 dm-ring-indigo-500"
+            : "focus-within:dm-ring-2 focus-within:dm-ring-offset-2 focus-within:dm-ring-offset-gray-100 focus-within:dm-ring-indigo-500",
+          "group dm-block dm-w-full dm-aspect-w-10 dm-aspect-h-7 dm-rounded-lg dm-bg-gray-200 dm-overflow-hidden"
         )}
       >
         {!isUploading && mediaType === "IMAGE" && (
@@ -37,8 +37,8 @@ export const MediaCard: FC<MediaCardProps> = ({
             src={cidToGatewayUrl(media.ipfsCID)}
             alt={media.name}
             className={classNames(
-              current ? "" : "group-hover:opacity-75",
-              "object-contain pointer-events-none"
+              current ? "" : "group-hover:dm-opacity-75",
+              "dm-object-contain dm-pointer-events-none"
             )}
           />
         )}
@@ -46,33 +46,33 @@ export const MediaCard: FC<MediaCardProps> = ({
           <video src={cidToGatewayUrl(media.ipfsCID)}></video>
         )}
         {!isUploading && mediaType === "OTHER" && (
-          <div className="p-20 w-full h-full flex items-center shrink-0">
+          <div className="dm-p-20 dm-w-full dm-h-full dm-flex dm-items-center shrink-0">
             <MediaIcon media={media} />
           </div>
         )}
         {isUploading && (
-          <div className="object-cover pointer-events-none flex items-center text-center justify-center">
+          <div className="dm-object-cover dm-pointer-events-none dm-flex dm-items-center dm-text-center dm-justify-center">
             <div>
-              <div className="text-xs text-gray-500 mb-2">
+              <div className="dm-text-xs dm-text-gray-500 dm-mb-2">
                 Uploading {uploadProgress}%...
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+              <div className="dm-w-full dm-bg-gray-200 dm-rounded-full dm-h-2 dark:dm-bg-gray-700">
                 <div
-                  className="bg-blue-600 h-2 rounded-full"
+                  className="dm-bg-blue-600 dm-h-2 dm-rounded-full"
                   style={{ width: `${uploadProgress}%` }}
                 ></div>
               </div>
             </div>
           </div>
         )}
-        <button type="button" className="absolute inset-0 focus:outline-none">
-          <span className="sr-only">View details for {media.name}</span>
+        <button type="button" className="dm-absolute dm-inset-0 focus:dm-outline-none">
+          <span className="dm-sr-only">View details for {media.name}</span>
         </button>
       </div>
-      <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
+      <p className="dm-mt-2 dm-block dm-text-sm dm-font-medium dm-text-gray-900 dm-truncate dm-pointer-events-none">
         {media.name}
       </p>
-      <p className="block text-sm font-medium text-gray-500 pointer-events-none">
+      <p className="dm-block dm-text-sm dm-font-medium dm-text-gray-500 dm-pointer-events-none">
         {formatSize(media.sizeInBytes)}
       </p>
     </li>
