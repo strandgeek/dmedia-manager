@@ -51,7 +51,7 @@ export const MediaDetailsSidebar: FC<MediaDetailsSidebarProps> = ({
         
         <div className="dm-pb-16 dm-space-y-6">
           <div>
-            <div className="group dm-block dm-w-full aspect-w-10 aspect-h-7 dm-rounded-lg dm-overflow-hidden dm-bg-gray-200 dm-relative">
+            <div className="group dm-block dm-w-full dm-aspect-w-10 dm-aspect-h-7 dm-rounded-lg dm-overflow-hidden dm-bg-gray-200 dm-relative">
               {mediaType === 'IMAGE' && (
                 <>                
                   <img
