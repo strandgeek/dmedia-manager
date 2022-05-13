@@ -121,7 +121,7 @@ export const MediaGalleryBase = () => {
             </div>
           </div>
         )}
-        <div className="dm-pt-8 dm-max-w-7xl dm-mx-auto dm-px-4 sm:dm-px-6 lg:dm-px-8">
+        <div className="dm-max-w-7xl dm-mx-auto dm-px-4 sm:dm-px-6 lg:dm-px-8">
           <div className="dm-flex">
             <div className="dm-ml-6 dm-bg-gray-100 dm-p-0.5 dm-rounded-lg dm-flex dm-items-center sm:dm-hidden">
               <button
