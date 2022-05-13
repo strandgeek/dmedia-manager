@@ -131,7 +131,7 @@ export const MediaDetailsSidebar: FC<MediaDetailsSidebarProps> = ({
               </div>
             </dl>
           </div>
-          <div className="dm-pb-2">
+          <div className="dm-pb-4">
             {footer}
           </div>
         </div>

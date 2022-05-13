@@ -47,7 +47,7 @@ export const MediaPickerBase = () => {
             leaveFrom="dm-opacity-100 dm-translate-y-0 sm:dm-scale-100"
             leaveTo="dm-opacity-0 dm-translate-y-4 sm:dm-translate-y-0 sm:dm-scale-95"
           >
-            <div className="dm-inline-block dm-align-bottom dm-bg-white dm-rounded-lg dm-text-left dm-overflow-hidden dm-shadow-xl dm-transform dm-transition-all sm:dm-my-4 sm:dm-align-middle sm:dm-max-w-5xl sm:dm-w-full sm:dm-p-6">
+            <div className="dm-inline-block dm-align-bottom dm-bg-white dm-rounded-lg dm-text-left dm-overflow-hidden dm-shadow-xl dm-transform dm-transition-all sm:dm-my-4 sm:dm-align-middle sm:dm-max-w-5xl sm:dm-w-full">
               <MediaGallery currentMedia={currentMedia} setCurrentMedia={setCurrentMedia} sidebarFooter={footer} />
             </div>
           </Transition.Child>
