@@ -5,10 +5,15 @@ import {
 import { useState } from "react";
 import { UI } from "react-dmedia-manager"
 import { Media } from "../../types/media";
+import { useProject } from "src/hooks/useProject";
 
 
 export const AdminIndex = () => {
+  const { project } = useProject()
   const [currentMedia, setCurrentMedia] = useState<Media | null>(null);
+  if (!project) {
+    return null;
+  }
   const header = (
     <form className="w-full flex md:ml-0" action="#" method="GET">
       <label htmlFor="desktop-search-field" className="sr-only">
@@ -40,7 +45,11 @@ export const AdminIndex = () => {
   );
   return (
     <AdminLayout header={header}>
-      <UI.MediaGallery currentMedia={currentMedia} setCurrentMedia={setCurrentMedia} />
+      <UI.MediaGallery
+        currentMedia={currentMedia}
+        setCurrentMedia={setCurrentMedia}
+        projectId={project.id!}
+      />
     </AdminLayout>
   );
 };

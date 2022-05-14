@@ -10,7 +10,7 @@ import { uploadMediaMutation } from "../../api/mutations/medias";
 import { v4 as uuidv4 } from "uuid";
 import { MediaCard } from "../ui/MediaCard";
 import { Media } from "../../types/media";
-import { getMedias } from "../../api/queries/medias";
+import { getProjectMedias } from "../../api/queries/project";
 
 interface UploadProgressInfo {
   id: string;
@@ -22,15 +22,16 @@ export interface MediaGalleryProps {
   sidebarFooter?: React.ReactNode;
   currentMedia?: Media | null;
   setCurrentMedia: React.Dispatch<React.SetStateAction<Media | null>>
+  projectId: string; 
 }
 
-export const MediaGallery: FC<MediaGalleryProps> = ({ sidebarFooter, currentMedia, setCurrentMedia }) => {
+export const MediaGallery: FC<MediaGalleryProps> = ({ sidebarFooter, currentMedia, setCurrentMedia, projectId }) => {
   const uploadMedias = useMutation(uploadMediaMutation);
   const {
     data: medias,
     isLoading,
     refetch: refetchMedias,
-  } = useQuery("medias", getMedias);
+  } = useQuery(["projectMedias", { projectId }], getProjectMedias);
   useEffect(() => {
     if (medias && medias.length > 0) {
       setCurrentMedia(medias[0]);
