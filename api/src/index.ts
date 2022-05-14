@@ -1,7 +1,7 @@
 import express, { Application } from "express";
 import cors from "cors";
-import { medias } from "./api/medias";
 import { auth } from "./api/auth";
+import { projects } from "./api/projects";
 
 // Constants
 const PORT = 4000;
@@ -17,7 +17,7 @@ app.use(express.json({ limit: '50mb' }));
 // API V1
 const apiV1 = express.Router()
 
-apiV1.use('/medias', medias);
+apiV1.use('/projects', projects)
 apiV1.use('/auth', auth);
 
 app.use('/api/v1', apiV1)

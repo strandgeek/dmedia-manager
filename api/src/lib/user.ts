@@ -82,3 +82,9 @@ export const getLoggedUser = async (req: Request<any>): Promise<User | null> => 
     }
   });
 }
+
+export const userHasAccessToProject = async (user: User, project: Project): Promise<boolean> => {
+  // Currently checking only if the user is the project owner
+  // TODO: Add user whitelist and on-chain interface as well
+  return project.ownerId === user.id;
+}
