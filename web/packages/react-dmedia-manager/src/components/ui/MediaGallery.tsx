@@ -6,7 +6,7 @@ import { MediaDetailsSidebar } from "./MediaDetailsSidebar";
 import { useDropzone } from "react-dropzone";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import { uploadMediaMutation } from "../../api/mutations/medias";
+import { uploadProjectMediaMutation } from "../../api/mutations/project";
 import { v4 as uuidv4 } from "uuid";
 import { MediaCard } from "../ui/MediaCard";
 import { Media } from "../../types/media";
@@ -26,7 +26,7 @@ export interface MediaGalleryProps {
 }
 
 export const MediaGallery: FC<MediaGalleryProps> = ({ sidebarFooter, currentMedia, setCurrentMedia, projectId }) => {
-  const uploadMedias = useMutation(uploadMediaMutation);
+  const uploadMedias = useMutation(uploadProjectMediaMutation);
   const {
     data: medias,
     isLoading,
@@ -61,6 +61,7 @@ export const MediaGallery: FC<MediaGalleryProps> = ({ sidebarFooter, currentMedi
         });
         uploadMedias
           .mutateAsync({
+            projectId,
             file,
             onUploadProgress: (progressEvent) => {
               const progress = Math.round(
