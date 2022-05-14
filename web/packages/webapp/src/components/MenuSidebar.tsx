@@ -2,11 +2,7 @@ import { Transition, Dialog } from "@headlessui/react";
 import { PhotographIcon, CogIcon, XIcon, } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { FC, Fragment } from "react";
-
-const navigation = [
-  { name: 'Medias', href: '#', icon: PhotographIcon, current: true },
-  { name: 'Settings', href: '#', icon: CogIcon, current: false },
-];
+import { Link, useLocation } from "react-router-dom";
 
 interface MenuSidebarProps {
   mobileMenuOpen: boolean;
@@ -14,6 +10,21 @@ interface MenuSidebarProps {
 }
 
 export const MenuSidebar: FC<MenuSidebarProps> = ({ mobileMenuOpen, setMobileMenuOpen }) => {
+  const location = useLocation();
+  const navigation = [
+    {
+      name: 'Medias',
+      href: '/admin/medias',
+      icon: PhotographIcon,
+      current: location.pathname === '/admin/medias',
+    },
+    {
+      name: 'Settings',
+      href: '/admin/settings',
+      icon: CogIcon,
+      current: location.pathname === '/admin/settings',
+    },
+  ];
   return (
     <>
       <div className="hidden w-28 bg-indigo-700 overflow-y-auto md:block">
@@ -27,9 +38,9 @@ export const MenuSidebar: FC<MenuSidebarProps> = ({ mobileMenuOpen, setMobileMen
           </div>
           <div className="flex-1 mt-6 w-full px-2 space-y-1">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className={classNames(
                   item.current
                     ? "bg-indigo-800 text-white"
@@ -48,7 +59,7 @@ export const MenuSidebar: FC<MenuSidebarProps> = ({ mobileMenuOpen, setMobileMen
                   aria-hidden="true"
                 />
                 <span className="mt-2">{item.name}</span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

@@ -1,10 +1,12 @@
 import 'animate.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 // Route Components
 import { AdminIndex } from "./pages/admin/Index";
+import { AdminMedias } from "./pages/admin/Medias";
+import { AdminSettings } from "./pages/admin/Settings";
 
 // Pages
 import { Home } from "./pages/Home";
@@ -22,6 +24,8 @@ function App() {
               <Route index element={<Home />} />
               <Route path="admin">
                 <Route index element={<AdminIndex />} />
+                <Route path="medias" element={<AdminMedias />} />
+                <Route path="settings" element={<AdminSettings />} />
               </Route>
             </Route>
           </Routes>
