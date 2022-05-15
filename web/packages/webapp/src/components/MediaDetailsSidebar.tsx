@@ -5,10 +5,9 @@ import { formatDuration, formatSize } from "../utils/format";
 import { cidToGatewayUrl } from "../utils/ipfs";
 import Lightbox from "react-awesome-lightbox";
 import "react-awesome-lightbox/build/style.css";
-import { ClipboardCopyIcon, DuplicateIcon, SearchIcon } from "@heroicons/react/outline";
+import { DuplicateIcon, SearchIcon } from "@heroicons/react/outline";
 import { toast } from "react-toastify";
 import { getMediaType } from "../utils/media";
-import { FileIcon } from 'react-file-icon';
 import { MediaIcon } from "./MediaIcon";
 
 interface MediaDetailsSidebarProps {
@@ -34,7 +33,6 @@ export const MediaDetailsSidebar: FC<MediaDetailsSidebarProps> = ({
     setDuration(formatDuration(e.target.duration) as any);
   }
   const onImageLoad = (e: any) => {
-    console.log(e.target)
     setResolution(`${e.target.naturalWidth}x${e.target.naturalHeight}`);
   }
   return (

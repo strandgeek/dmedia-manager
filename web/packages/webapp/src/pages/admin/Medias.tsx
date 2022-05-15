@@ -24,7 +24,6 @@ export const AdminMedias = () => {
   if (!project) {
     return null;
   }
-  console.log(project)
   const header = (
     <form className="w-full flex md:ml-0" action="#" method="GET">
       <label htmlFor="desktop-search-field" className="sr-only">

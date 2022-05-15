@@ -41,6 +41,8 @@ export const MediaGallery: FC<MediaGalleryProps> = ({ sidebarFooter, currentMedi
     refetch: refetchMedias,
   } = useQuery(["projectMedias", { projectId }], getProjectMedias(client));
   
+  console.log(projectId)
+
   useEffect(() => {
     if (medias) {
       const media = medias.length > 0 ? medias[0] : null;

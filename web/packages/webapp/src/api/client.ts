@@ -12,3 +12,13 @@ client.interceptors.request.use(config => {
   }
   return config;
 });
+
+
+client.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  if (error.response.status === 401) {
+    window.location.href = '/';
+  }
+  return Promise.reject(error);
+});

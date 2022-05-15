@@ -4,9 +4,11 @@ import Web3Modal from "web3modal";
 import { auth, generateSignRequest } from "../api/mutations/auth";
 import { Account, Web3Context, Web3ContextValue } from "../hooks/useWeb3";
 import Identicon from 'identicon.js'
+import { useNavigate } from "react-router-dom";
 
 
 export const Web3Provider = ({ children }: { children: ReactNode }) => {
+  const navigate = useNavigate()
   const [web3Modal, setWeb3Modal] = useState<Web3Modal | undefined>();
   const [web3, setWeb3] = useState<Web3 | null>(null);
   const [connectedAccount, setConnectedAccount] = useState<Account | undefined>(undefined);
@@ -60,7 +62,6 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
           signRequest.message,
           account
         );
-        console.log({ signature })
         const { accessToken } = await auth({
           address: account || '',
           signature: signature!,
@@ -70,7 +71,7 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
         console.log({ error });
       }
     } catch (error) {
-      console.log("Could not catch error");
+      console.log("Could not handle error error", error);
     }
   }, [connect]);
 
@@ -83,9 +84,11 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
           await web3Modal!.clearCachedProvider();
         }
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('currentProject');
+        navigate('/');
       });
     })();
-  }, [web3Modal]);
+  }, [navigate, web3Modal]);
 
 
   const web3Ctx: Web3ContextValue = {
