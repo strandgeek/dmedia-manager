@@ -2,18 +2,29 @@ import { AdminLayout } from "../../layouts/Admin";
 import {
   SearchIcon,
 } from "@heroicons/react/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UI } from "react-dmedia-manager"
 import { Media } from "../../types/media";
 import { useProject } from "src/hooks/useProject";
+import { useQuery } from "react-query";
+import { getProjects } from "src/api/queries/project";
+import { useNavigate } from "react-router-dom";
 
 
 export const AdminMedias = () => {
+  const navigate = useNavigate()
   const { project } = useProject()
   const [currentMedia, setCurrentMedia] = useState<Media | null>(null);
+  const { data: projects, isLoading: isLoadingProjects } = useQuery("projects", getProjects)
+  useEffect(() => {
+    if (!isLoadingProjects && projects && projects.length === 0) {
+      navigate('/admin/create-project');
+    }
+  }, [isLoadingProjects, navigate, projects])
   if (!project) {
     return null;
   }
+  console.log(project)
   const header = (
     <form className="w-full flex md:ml-0" action="#" method="GET">
       <label htmlFor="desktop-search-field" className="sr-only">

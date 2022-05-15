@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
-import { useQuery } from "react-query"
-import { useNavigate } from "react-router-dom"
-import { getProjects } from "src/api/queries/project"
+import { client } from "src/api/client"
 import { Project } from "src/types/project"
 
 interface UseProject {
@@ -15,33 +13,21 @@ export const useProject = (): UseProject => {
     const currentProjectJson = localStorage.getItem("currentProject")
     if (currentProjectJson) {
       _setProject(JSON.parse(currentProjectJson));
+    } else {
+      // Fallbacking to the first project
+      client.get<{ projects: Project[] }>("/projects").then(res => {
+        setProject(res.data.projects[0]);
+      })
     }
-  }, [project]);
+  }, []);
 
   const setProject = (project: Project) => {
-    localStorage.setItem("currentProject", JSON.stringify(project));
     _setProject(project);
+    localStorage.setItem("currentProject", JSON.stringify(project));
   }
   
-  
-  const navigate = useNavigate()
-  const { data: projects, isLoading } = useQuery("projects", getProjects)
-  if (isLoading) {
-    return {
-      project: null,
-      setProject,
-    }
-  }
-  if (projects && projects.length > 0) {
-    return {
-      project: project || projects[0],
-      setProject,
-    }
-  } else {
-    navigate('/admin/create-project');
-  }
   return {
-    project: null,
+    project,
     setProject,
   }
 }

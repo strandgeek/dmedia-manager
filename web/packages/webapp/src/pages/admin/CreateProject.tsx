@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createProject } from "src/api/mutations/projects";
+import { useProject } from "src/hooks/useProject";
 
 export const CreateProject = () => {
+  const { setProject } = useProject()
+  const navigate = useNavigate()
   const [name, setName] = useState('');
   const mutation = useMutation(createProject) 
   const onCreateClick = async () => {
     try {
-      mutation.mutateAsync({
+      const { project } = await mutation.mutateAsync({
         name,
       })
+      setProject(project)
+      navigate('/admin/medias');
     } catch (error) {
       toast.error('Could not create the project');
     }
