@@ -2,12 +2,16 @@ import express, { Application } from "express";
 import cors from "cors";
 import { auth } from "./api/auth";
 import { projects } from "./api/projects";
+import path from "path";
 
 // Constants
 const PORT = 4000;
 
 // Express App Setup
 const app: Application = express();
+
+// Serve Webapp
+app.use(express.static(path.resolve(__dirname, './webappbuild')));
 
 // Global Middlewares
 app.use(cors());

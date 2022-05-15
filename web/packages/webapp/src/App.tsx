@@ -1,6 +1,6 @@
 import 'animate.css';
 import 'react-toastify/dist/ReactToastify.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 
 // Route Components
@@ -18,7 +18,7 @@ function App() {
     <ReactQueryProvider>
       <ToastContainer />
       <Web3Provider>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="/">
               <Route index element={<Home />} />
@@ -29,7 +29,7 @@ function App() {
               </Route>
             </Route>
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </Web3Provider>
     </ReactQueryProvider>
   );

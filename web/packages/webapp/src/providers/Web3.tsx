@@ -32,22 +32,27 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
 
   const connect = useCallback(async function () {
     if (!web3Modal) {
-      return;
+      return {
+        web3: null,
+        account: '',
+      };
     }
     const provider = await web3Modal.connect();
-    setWeb3(new Web3(provider));
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
+    const web3 = new Web3(provider);
+    setWeb3(web3);
+    const accounts = await web3.eth.requestAccounts();
     setConnectedAccountFromAddress(accounts[0]);
-    return accounts[0];
+    return {
+      web3,
+      account: accounts[0],
+    };
   }, [setConnectedAccountFromAddress, web3Modal]);
 
-  const signAuth = async () => {
-    const account = await connect();
+  const signAuth = useCallback(async () => {
+    const { web3, account } = await connect();
     try {
       const signRequest = await generateSignRequest({
-        address: account,
+        address: account || '',
       });
       try {
         // @ts-ignore
@@ -55,19 +60,33 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
           signRequest.message,
           account
         );
+        console.log({ signature })
         const { accessToken } = await auth({
-          address: account,
+          address: account || '',
           signature: signature!,
         });
         localStorage.setItem("accessToken", accessToken);
-        window.location.reload();
       } catch (error) {
         console.log({ error });
       }
     } catch (error) {
       console.log("Could not catch error");
     }
-  };
+  }, [connect]);
+
+  useEffect(() => {
+    (async () => {
+      window.ethereum.on("accountsChanged", async function (accounts: any) {
+        if (accounts[0]) {
+          setConnectedAccount(accounts[0]);
+        } else {
+          await web3Modal!.clearCachedProvider();
+        }
+        localStorage.removeItem('accessToken');
+      });
+    })();
+  }, [web3Modal]);
+
 
   const web3Ctx: Web3ContextValue = {
     connect,

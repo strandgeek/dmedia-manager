@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev ./src/index.ts"
+    "dev": "ts-node-dev ./src/index.ts",
+    "build:webapp": "bash ./scripts/build-webapp.sh",
+    "build:api": "tsc",
+    "build": "npm run build:api && npm run build:webapp",
+    "start": "node ./build/index.js"
   },
   "author": "",
   "license": "ISC",

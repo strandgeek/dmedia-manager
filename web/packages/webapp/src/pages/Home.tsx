@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useWeb3 } from "../hooks/useWeb3";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const navigation = [
   { name: "FAQ", href: "#" },
@@ -12,10 +12,10 @@ const navigation = [
 
 export const Home = () => {
   const { signAuth } = useWeb3();
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const onConnectWalletClick = async () => {
     await signAuth();
-    // navigate('/admin')
+    navigate('/admin')
   };
   return (
     <div className="bg-gray-50 overflow-y-scroll h-full">
