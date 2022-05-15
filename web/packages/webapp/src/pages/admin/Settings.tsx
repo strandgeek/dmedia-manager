@@ -46,7 +46,7 @@ export const AdminSettings = () => {
         <div className="mt-8">
           <DescriptionList
             title="Access Management"
-            description="Define how you want to allow access to dMedia Manager"
+            description="Define how you want to allow users access to project media"
           >
             <DescriptionListItem label="Method">
               On-Chain

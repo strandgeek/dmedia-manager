@@ -19,6 +19,7 @@ auth.post('/', async (req: Request, res: Response) => {
     });
     const { message } = generateSignRequest(address, user?.nonce!);
     const recoveredAddress = web3.eth.accounts.recover(message, signature);
+    console.log({ recoveredAddress, address });
     if (recoveredAddress.toUpperCase() == address.toUpperCase()) {
       const accessToken = await generateUserAccessToken(address);
       // Renew nonce after login
