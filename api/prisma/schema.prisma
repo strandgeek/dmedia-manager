@@ -12,6 +12,7 @@ datasource db {
 
 model Project {
   id        String         @id @default(uuid())
+  name      String         @default("Unnamed Project")
   ownerId   String
   owner     User           @relation(fields: [ownerId], references: [id])
   createdAt DateTime

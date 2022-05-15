@@ -35,6 +35,31 @@ const getAuthorizedProjectUser = async (req: Request): Promise<{ user: User, pro
   }
 }
 
+// POST /api/v1/projects
+projects.post('/', async (req: Request, res: Response) => {
+  try {
+    const user = await getLoggedUser(req)
+    if (!user) {
+     return sendApiError(res, API_ERRORS.UNAUTHORIZED);
+    }
+    const { name } = req.body;
+    const project = await prisma.project.create({
+      data: {
+        createdAt: new Date(),
+        name,
+        ownerId: user.id,
+      }
+    })
+    return res.json({ project });
+  } catch (error: any) {
+    if (error.message === API_ERRORS.UNAUTHORIZED.key) {
+      return sendApiError(res, API_ERRORS.UNAUTHORIZED);
+    }
+    return sendApiError(res, API_ERRORS.INTERNAL_SERVER_ERROR);
+  }
+});
+
+
 // GET /api/v1/projects
 projects.get('/', async (req: Request, res: Response) => {
   try {

@@ -12,6 +12,7 @@ import { AdminSettings } from "./pages/admin/Settings";
 import { Home } from "./pages/Home";
 import { Web3Provider } from "./providers/Web3";
 import { ReactQueryProvider } from "./providers/ReactQuery";
+import { CreateProject } from './pages/admin/CreateProject';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
                 <Route index element={<AdminIndex />} />
                 <Route path="medias" element={<AdminMedias />} />
                 <Route path="settings" element={<AdminSettings />} />
+                <Route path="create-project" element={<CreateProject />} />
               </Route>
             </Route>
           </Routes>

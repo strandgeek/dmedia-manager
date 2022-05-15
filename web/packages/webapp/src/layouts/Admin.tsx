@@ -4,6 +4,7 @@ import {
 } from '@heroicons/react/outline'
 import { ProfileInfoDropdown } from '../components/ProfileInfoDropdown'
 import { MenuSidebar } from '../components/MenuSidebar'
+import { ProjectsDropdown } from 'src/components/ProjectsDropdown'
 
 
 
@@ -41,6 +42,7 @@ export const AdminLayout: FC<AdminLayoutProps> = ({ header, children }) => {
                   {header}
                 </div>
                 <div className="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
+                  <ProjectsDropdown />
                   <ProfileInfoDropdown />
                 </div>
               </div>

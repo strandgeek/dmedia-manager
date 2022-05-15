@@ -1,27 +1,47 @@
 import { useEffect, useState } from "react"
-import { client } from "src/api/client"
+import { useQuery } from "react-query"
+import { useNavigate } from "react-router-dom"
+import { getProjects } from "src/api/queries/project"
 import { Project } from "src/types/project"
 
 interface UseProject {
   project?: Project | null
+  setProject: (project: Project) => void;
 }
 
 export const useProject = (): UseProject => {
-  const [project, setProject] = useState<Project | null>(null)
+  const [project, _setProject] = useState<Project | null>(null);
   useEffect(() => {
-    client.get<{ projects: Project[] }>('/projects')
-      .then(res => {
-        const { projects } = res.data;
-        if (projects.length > 0) {
-          // TODO: 1 - At this point we need to make sure the projects list from a user has always at least one project
-          // TODO: 2 - Add option to change the project
-          const project = projects[0];
-          setProject(project);
-          return
-        }
-      })
-  }, []);
+    const currentProjectJson = localStorage.getItem("currentProject")
+    if (currentProjectJson) {
+      _setProject(JSON.parse(currentProjectJson));
+    }
+  }, [project]);
+
+  const setProject = (project: Project) => {
+    localStorage.setItem("currentProject", JSON.stringify(project));
+    _setProject(project);
+  }
+  
+  
+  const navigate = useNavigate()
+  const { data: projects, isLoading } = useQuery("projects", getProjects)
+  if (isLoading) {
+    return {
+      project: null,
+      setProject,
+    }
+  }
+  if (projects && projects.length > 0) {
+    return {
+      project: project || projects[0],
+      setProject,
+    }
+  } else {
+    navigate('/admin/create-project');
+  }
   return {
-    project,
+    project: null,
+    setProject,
   }
 }

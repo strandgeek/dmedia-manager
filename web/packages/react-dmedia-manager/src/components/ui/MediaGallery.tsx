@@ -40,11 +40,14 @@ export const MediaGallery: FC<MediaGalleryProps> = ({ sidebarFooter, currentMedi
     isLoading,
     refetch: refetchMedias,
   } = useQuery(["projectMedias", { projectId }], getProjectMedias(client));
+  
   useEffect(() => {
-    if (medias && medias.length > 0) {
-      setCurrentMedia(medias[0]);
+    if (medias) {
+      const media = medias.length > 0 ? medias[0] : null;
+      setCurrentMedia(media);
     }
   }, [medias])
+
   const [uploadProgressInfoList, setUploadProgressInfoList] = useState<
     UploadProgressInfo[]
   >([]);
