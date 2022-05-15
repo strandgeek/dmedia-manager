@@ -1,5 +1,5 @@
 import { MutationFunction } from "react-query";
-import { client } from "../client";
+import { AxiosInstance } from 'axios'
 
 interface SignRequest {
   address: string;
@@ -8,7 +8,7 @@ interface SignRequest {
 }
 
 
-export const generateSignRequest: MutationFunction<SignRequest, { address: string }> = async ({ address }) => {
+export const generateSignRequest: (client: AxiosInstance) => MutationFunction<SignRequest, { address: string }> = (client) => async ({ address }) => {
   try {
     const { data } = await client.post(`/auth/sign-request/${address}`)
     return data;
@@ -17,7 +17,7 @@ export const generateSignRequest: MutationFunction<SignRequest, { address: strin
   }
 };
 
-export const auth: MutationFunction<{ accessToken: string }, { address: string, signature: string }> = async ({ address, signature }) => {
+export const auth: (client: AxiosInstance) => MutationFunction<{ accessToken: string }, { address: string, signature: string }> = (client) => async ({ address, signature }) => {
   try {
     const { data } = await client.post('/auth', {
       address,

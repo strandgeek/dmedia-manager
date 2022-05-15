@@ -11,6 +11,8 @@ import { v4 as uuidv4 } from "uuid";
 import { MediaCard } from "../ui/MediaCard";
 import { Media } from "../../types/media";
 import { getProjectMedias } from "../../api/queries/project";
+import { useAxios } from "../../hooks/useAxios";
+
 
 interface UploadProgressInfo {
   id: string;
@@ -22,16 +24,22 @@ export interface MediaGalleryProps {
   sidebarFooter?: React.ReactNode;
   currentMedia?: Media | null;
   setCurrentMedia: React.Dispatch<React.SetStateAction<Media | null>>
-  projectId: string; 
+  projectId: string;
+  apiUrl: string;
+  accessToken: string;
 }
 
-export const MediaGallery: FC<MediaGalleryProps> = ({ sidebarFooter, currentMedia, setCurrentMedia, projectId }) => {
-  const uploadMedias = useMutation(uploadProjectMediaMutation);
+export const MediaGallery: FC<MediaGalleryProps> = ({ sidebarFooter, currentMedia, setCurrentMedia, projectId, apiUrl, accessToken }) => {
+  const client = useAxios({
+    baseURL: apiUrl,
+    accessToken,
+  })
+  const uploadMedias = useMutation(uploadProjectMediaMutation(client));
   const {
     data: medias,
     isLoading,
     refetch: refetchMedias,
-  } = useQuery(["projectMedias", { projectId }], getProjectMedias);
+  } = useQuery(["projectMedias", { projectId }], getProjectMedias(client));
   useEffect(() => {
     if (medias && medias.length > 0) {
       setCurrentMedia(medias[0]);

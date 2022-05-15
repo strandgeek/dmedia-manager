@@ -1,8 +1,8 @@
 import { MutationFunction } from "react-query";
 import { Media } from "../../types/media";
-import { client } from "../client";
+import { AxiosInstance } from 'axios'
 
-export const uploadProjectMediaMutation: MutationFunction<{ media: Media }, { file: File, onUploadProgress?: (progress: any) => void, projectId: string }> = async ({ file, onUploadProgress, projectId }) => {
+export const uploadProjectMediaMutation: (client: AxiosInstance) => MutationFunction<{ media: Media }, { file: File, onUploadProgress?: (progress: any) => void, projectId: string }> = (client) => async ({ file, onUploadProgress, projectId }) => {
   try {
     const formData = new FormData();
     formData.append(file.name, file);

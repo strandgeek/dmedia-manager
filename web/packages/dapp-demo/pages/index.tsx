@@ -29,7 +29,8 @@ const Home: NextPage = () => {
       console.error("Could not connect to Web3 Provider");
     }
   }, []);
-
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+  const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || '';
   return (
     <div className="w-screen h-screen flex items-center justify-center">
       <div>
@@ -41,8 +42,9 @@ const Home: NextPage = () => {
         {web3 ? (
           <>
             <MediaPicker
+              apiUrl={apiUrl}
+              projectId={projectId}
               web3={web3}
-              projectId="0395d586-807e-4523-a2fa-f047fadaae6b"
               onMediaSelect={(media) => {
                 setMedia(media);
               }}

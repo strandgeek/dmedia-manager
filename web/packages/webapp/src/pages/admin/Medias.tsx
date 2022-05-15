@@ -49,6 +49,8 @@ export const AdminMedias = () => {
         currentMedia={currentMedia}
         setCurrentMedia={setCurrentMedia}
         projectId={project.id!}
+        apiUrl={process.env.REACT_APP_API_URL || ''}
+        accessToken={localStorage.getItem('accessToken') || ''}
       />
     </AdminLayout>
   );

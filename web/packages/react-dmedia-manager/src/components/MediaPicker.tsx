@@ -6,21 +6,28 @@ import { ReactQueryProvider } from '../providers/ReactQuery'
 import { Media } from '../types/media'
 import Web3 from 'web3'
 import { auth, generateSignRequest } from '../api/mutations/auth'
+import { useAxios } from '../hooks/useAxios'
 
 
 interface MediaPickerProps {
   web3: Web3;
   projectId: string;
   onMediaSelect: (media: Media) => void;
+  apiUrl: string;
 }
 
 export const MediaPickerBase: FC<MediaPickerProps> = ({
   projectId,
   onMediaSelect,
   web3,
+  apiUrl,
 }) => {
   const [open, setOpen] = useState(false);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string>('');
+  const client = useAxios({
+    baseURL: apiUrl,
+    accessToken,
+  })
   const [currentMedia, setCurrentMedia] = useState<Media | null>(null);
   const [loadingModal, setLoadingModal] = useState(false);
 
@@ -29,7 +36,7 @@ export const MediaPickerBase: FC<MediaPickerProps> = ({
       const accounts = await web3.eth.requestAccounts()
       const account = accounts[0];
       console.log(account);
-      const signRequest = await generateSignRequest({
+      const signRequest = await generateSignRequest(client)({
         address: account,
       });
       // @ts-ignore
@@ -37,7 +44,7 @@ export const MediaPickerBase: FC<MediaPickerProps> = ({
         signRequest.message,
         account
       );
-      const { accessToken } = await auth({
+      const { accessToken } = await auth(client)({
         address: account,
         signature: signature!,
       });
@@ -119,12 +126,14 @@ export const MediaPickerBase: FC<MediaPickerProps> = ({
               leaveTo="dm-opacity-0 dm-translate-y-4 sm:dm-translate-y-0 sm:dm-scale-95"
             >
               <div className="dm-inline-block dm-align-bottom dm-bg-white dm-rounded-lg dm-text-left dm-overflow-hidden dm-shadow-xl dm-transform dm-transition-all sm:dm-my-4 sm:dm-align-middle sm:dm-max-w-5xl sm:dm-w-full">
-                {accessToken && (
+                {accessToken !== '' && (
                   <MediaGallery
                     projectId={projectId}
                     currentMedia={currentMedia}
                     setCurrentMedia={setCurrentMedia}
                     sidebarFooter={footer}
+                    accessToken={accessToken}
+                    apiUrl={apiUrl}
                   />
                 )}
               </div>

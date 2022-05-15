@@ -1,8 +1,8 @@
 import { QueryFunction } from "react-query";
 import { Media } from "../../types/media";
-import { client } from "../client";
+import { AxiosInstance } from 'axios';
 
-export const getProjectMedias: QueryFunction<Media[], [string, { projectId: string }]>  = async ({ queryKey }) => {
+export const getProjectMedias: (client: AxiosInstance) => QueryFunction<Media[], [string, { projectId: string }]>  = (client) => async ({ queryKey }) => {
   try {
     const [_key, { projectId }] = queryKey
     const { data } = await client.get(`/projects/${projectId}/medias`)
