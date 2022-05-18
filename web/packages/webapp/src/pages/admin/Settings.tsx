@@ -1,19 +1,26 @@
 import { AdminLayout } from "../../layouts/Admin";
 import { useProject } from "src/hooks/useProject";
-import { DescriptionList, DescriptionListItem } from "src/components/DescriptionList";
-import { ExternalLinkIcon } from "@heroicons/react/outline";
-
+import {
+  DescriptionList,
+  DescriptionListItem,
+} from "src/components/DescriptionList";
+import { CogIcon, ExternalLinkIcon, PencilAltIcon, PencilIcon } from "@heroicons/react/outline";
+import { useState } from "react";
+import { SetupAccessControlModal } from "src/components/SetupAcessControlModal";
+import { getEtherscanBaseUrl, getShortAddress } from "src/utils/web3";
+import { capitalizeFirstLetter } from "src/utils/string";
 
 export const AdminSettings = () => {
-  const { project } = useProject()
+  const [setupAccessControlOpen, setSetupAccessControlOpen] = useState(false);
+  const { project } = useProject();
   if (!project) {
     return null;
   }
+  const { accessControlContractNetwork, accessControlContractAddress } =
+    project;
   const header = (
     <div className="h-full flex items-center">
-      <h1>
-        Settings
-      </h1>
+      <h1>Settings</h1>
     </div>
   );
   return (
@@ -32,7 +39,7 @@ export const AdminSettings = () => {
                 <li className="mb-4">
                   <a href="" className="flex items-center text-blue-500">
                     React
-                    <ExternalLinkIcon  className="w-4 h-4 ml-1" />
+                    <ExternalLinkIcon className="w-4 h-4 ml-1" />
                   </a>
                 </li>
                 <li>
@@ -48,17 +55,49 @@ export const AdminSettings = () => {
             title="Access Management"
             description="Define how you want to allow users access to project media"
           >
-            <DescriptionListItem label="Method">
-              On-Chain
-            </DescriptionListItem>
-            <DescriptionListItem label="Contract Address">
-              <a href="" className="text-blue-500">
-                0x000..000
-              </a>
-              {/* TODO: Create Smart Contract Configuration Wizzard */}
-            </DescriptionListItem>
+            {accessControlContractNetwork && accessControlContractAddress ? (
+              <>
+                <DescriptionListItem label="Network">
+                  {capitalizeFirstLetter(accessControlContractNetwork)}
+                </DescriptionListItem>
+                <DescriptionListItem label="Contract Address">
+                  <div className="flex justify-between">
+                    <a
+                      href={`${getEtherscanBaseUrl(accessControlContractNetwork)}/address/${accessControlContractAddress}`}
+                      className="text-blue-500"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {getShortAddress(accessControlContractAddress)}
+                    </a>
+                    <button onClick={() => setSetupAccessControlOpen(true)}>
+                      <PencilIcon className="h-4 w-4 text-gray-500"/>
+                    </button>
+                  </div>
+                  {/* TODO: Create Smart Contract Configuration Wizzard */}
+                </DescriptionListItem>
+              </>
+            ) : (
+              <div className="p-4">
+                <div className="py-4 text-center text-gray-500 text-sm">
+                  Access control smart contract not yet configured
+                </div>
+                <button
+                  type="button"
+                  className="w-full text-center justify-center inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  <CogIcon className="w-6 h-6 mr-2" />
+                  Setup Smart Contract
+                </button>
+              </div>
+            )}
           </DescriptionList>
         </div>
+        <SetupAccessControlModal
+          open={setupAccessControlOpen}
+          setOpen={setSetupAccessControlOpen}
+          project={project}
+        />
       </div>
     </AdminLayout>
   );

@@ -11,12 +11,14 @@ datasource db {
 }
 
 model Project {
-  id        String         @id @default(uuid())
-  name      String         @default("Unnamed Project")
-  ownerId   String
-  owner     User           @relation(fields: [ownerId], references: [id])
-  createdAt DateTime
-  medias    ProjectMedia[]
+  id                           String         @id @default(uuid())
+  name                         String         @default("Unnamed Project")
+  ownerId                      String
+  owner                        User           @relation(fields: [ownerId], references: [id])
+  createdAt                    DateTime
+  medias                       ProjectMedia[]
+  accessControlContractNetwork String?
+  accessControlContractAddress String?
 }
 
 model ProjectMedia {

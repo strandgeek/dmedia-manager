@@ -13,7 +13,7 @@ export const projects = express.Router()
 const upload = multer();
 
 
-const getAuthorizedProjectUser = async (req: Request): Promise<{ user: User, project: Project}> => {
+const getProjectUserFromReq = async (req: Request): Promise<{ user: User, project: Project}> => {
   const user = await getLoggedUser(req)
   if (!user) {
     throw new Error(API_ERRORS.UNAUTHORIZED.key)
@@ -26,8 +26,27 @@ const getAuthorizedProjectUser = async (req: Request): Promise<{ user: User, pro
   if (!project) {
     throw new Error(API_ERRORS.UNAUTHORIZED.key)
   }
+  return {
+    user,
+    project,
+  }
+}
+
+const getAuthorizedProjectUser = async (req: Request): Promise<{ user: User, project: Project}> => {
+  const { user, project } = await getProjectUserFromReq(req);
   if (!await userHasAccessToProject(user, project)) {
-    throw new Error(API_ERRORS.UNAUTHORIZED.key)
+    throw new Error(API_ERRORS.UNAUTHORIZED.key);
+  }
+  return {
+    user,
+    project,
+  }
+}
+
+const getAuthorizedProjectOwner = async (req: Request): Promise<{ user: User, project: Project}> => {
+  const { user, project } = await getProjectUserFromReq(req);
+  if (project.ownerId !== user.id) {
+    throw new Error(API_ERRORS.UNAUTHORIZED.key);
   }
   return {
     user,
@@ -134,6 +153,32 @@ projects.get('/:projectId/medias', async (req: Request, res: Response) => {
     if (error.message === API_ERRORS.UNAUTHORIZED.key) {
       return sendApiError(res, API_ERRORS.UNAUTHORIZED);
     }
-    return sendApiError(res, API_ERRORS.UNAUTHORIZED);
+    return sendApiError(res, API_ERRORS.INTERNAL_SERVER_ERROR);
+  }
+});
+
+// PUT /api/v1/projects/:projectId
+projects.put('/:projectId', async (req: Request, res: Response) => {
+  try {    
+    const { project } = await getAuthorizedProjectOwner(req);
+    const {
+      accessControlContractNetwork,
+      accessControlContractAddress
+    } = req.body;
+    const newProject = await prisma.project.update({
+      data: {
+        accessControlContractNetwork,
+        accessControlContractAddress,
+      },
+      where: {
+        id: project.id,
+      }
+    })
+    return res.json({ project: newProject });
+  } catch (error: any) {
+    if (error.message === API_ERRORS.UNAUTHORIZED.key) {
+      return sendApiError(res, API_ERRORS.UNAUTHORIZED);
+    }
+    return sendApiError(res, API_ERRORS.INTERNAL_SERVER_ERROR);
   }
 });

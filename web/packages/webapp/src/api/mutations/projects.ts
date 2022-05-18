@@ -21,3 +21,30 @@ export const createProject: MutationFunction<CreateProjectResponse, CreateProjec
     throw error;
   }
 };
+
+interface UpdateProjectRequest {
+  projectId: string;
+  accessControlContractNetwork?: string;
+  accessControlContractAddress?: string;
+}
+
+interface UpdateProjectResponse {
+  project: Project;
+}
+
+export const updateProject: MutationFunction<UpdateProjectResponse, UpdateProjectRequest> = async ({
+  projectId,
+  accessControlContractNetwork,
+  accessControlContractAddress,
+}) => {
+  try {
+    const { data } = await client.put<CreateProjectResponse>(`/projects/${projectId}`, {
+      accessControlContractNetwork,
+      accessControlContractAddress,
+    })
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+

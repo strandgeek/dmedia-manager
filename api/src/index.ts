@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import cors from "cors";
 import { auth } from "./api/auth";
 import { projects } from "./api/projects";
+import { utils } from "./api/utils";
 import path from "path";
 
 // Constants
@@ -23,6 +24,7 @@ const apiV1 = express.Router()
 
 apiV1.use('/projects', projects)
 apiV1.use('/auth', auth);
+apiV1.use('/utils', utils);
 
 app.use('/api/v1', apiV1)
 
