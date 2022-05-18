@@ -15,7 +15,7 @@ Also, we have some examples:
 To allow dMedia Manager to authorize access from an address you must implement the interface below on your Smart Contract:
 
 
-```
+```solidity
 interface IMediaMediaManagerAccess {
    function hasMediaManagerAccess(address) external view returns(bool);
 }
