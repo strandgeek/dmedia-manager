@@ -22,7 +22,7 @@ interface IMediaMediaManagerAccess {
 ```
 
 
-So every time a user tries to access the MediaManager component in a dApp, a query in that method will be made and so the user will be authorized or blocked.
+So every time a user tries to access the MediaManager component in a dApp, a call to that method will be made and so the user will be authorized or blocked.
 
 
 ### Examples
