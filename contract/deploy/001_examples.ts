@@ -1,8 +1,4 @@
-// import { HardhatRuntimeEnvironment } from "hardhat/config";
-// import { DeployFunction } from "hardhat-deploy/types";
-// import { parseEther } from "ethers/lib/utils";
-
-const func = async function (hre) {
+module.exports = async function (hre) {
   const { deployments, getNamedAccounts } = hre;
   const { deploy } = deployments;
 
@@ -14,6 +10,11 @@ const func = async function (hre) {
     log: true,
     autoMine: true,
   });
+
+  await deploy("WhitelistAccess", {
+    from: deployer,
+    args: [],
+    log: true,
+    autoMine: true,
+  });
 };
-exports.default = func
-func.tags = ["OwnerAccess"];
