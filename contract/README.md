@@ -47,7 +47,7 @@ contract OwnerAccess is IMediaMediaManagerAccess {
 
 #### WhitelistAccess
 
-In case you want to have a list with pre-authorized address, you can use the example below:
+In case you want to have a list with pre-authorized addresses, you can use the example below:
 
 ```solidity
 contract WhitelistAccess is IMediaMediaManagerAccess {
