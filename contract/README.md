@@ -50,15 +50,29 @@ contract OwnerAccess is IMediaMediaManagerAccess {
 In case you want to have a list with pre-authorized address, you can use the example below:
 
 ```solidity
-contract OwnerAccess is IMediaMediaManagerAccess {
-   address public owner;
+contract WhitelistAccess is IMediaMediaManagerAccess {
+   address private owner;
+   mapping(address => bool) public whitelist;
 
    constructor() {
       owner = msg.sender;
    }
 
+   modifier onlyOwner() {
+      require(msg.sender == owner);
+      _;
+   }
+
    function hasMediaManagerAccess(address _addr) external view override returns(bool) {
-      return _addr == owner;
+      return whitelist[_addr];
+   }
+
+   function allow(address _addr) public onlyOwner {
+      whitelist[_addr] = true;
+   }
+
+   function revoke(address _addr) public onlyOwner {
+      whitelist[_addr] = false;
    }
 }
 ```
