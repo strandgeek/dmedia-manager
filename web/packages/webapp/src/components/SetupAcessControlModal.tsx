@@ -95,6 +95,7 @@ export const SetupAccessControlModal: FC<SetupAccessControlModalProps> = ({
         accessControlContractAddress: contractAddress,
       })
       setProject(updatedProject);
+      setOpen(false);
     }
   };
   return (
