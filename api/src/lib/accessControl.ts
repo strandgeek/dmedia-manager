@@ -70,6 +70,6 @@ export const hasMediaAccess = async (
   if (!web3) {
     throw new Error('UNKNOWN_NETWORK');
   }
-  const contract = new web3.eth.Contract(INTERFACE_ABI, contractAddress);
-  return contract.methods.hasMediaManagerAccess(address).call()
+  const contract = new web3.eth.Contract(INTERFACE_ABI, contractAddress.toLowerCase());
+  return contract.methods.hasMediaManagerAccess(address.toLowerCase()).call()
 }
