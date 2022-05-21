@@ -3,11 +3,11 @@ FROM node:16 AS builder
 WORKDIR /usr/src/app
 COPY . .
 # Setup Web
-WORKDIR /usr/src/app/web
+WORKDIR /usr/src/app/web/packages/webapp
 RUN npm install --force
 # Setup API & Build App Bundle
 WORKDIR /usr/src/app/api
-RUN npm install && npm run build && npx prisma generate
+RUN npm install --force && npm run build && npx prisma generate
 
 
 FROM node:16
