@@ -1,0 +1,39 @@
+Arguments: 
+  /Users/carlosstrand/.nvm/versions/node/v16.13.1/bin/node /opt/homebrew/Cellar/yarn/1.22.17_2/libexec/bin/yarn.js
+
+PATH: 
+  /Users/carlosstrand/Downloads/google-cloud-sdk/bin:/Users/carlosstrand/.pyenv/shims:/Users/carlosstrand/.gvm/bin:/Users/carlosstrand/.nvm/versions/node/v16.13.1/bin:/Users/carlosstrand/.rbenv/shims:/Users/carlosstrand/.local/share/solana/install/active_release/bin:/opt/homebrew/bin:/Users/carlosstrand/.pyenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/usr/local/go/bin:/Users/carlosstrand/go/bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.13.1
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: ENOSPC: no space left on device, copyfile '/Users/carlosstrand/Library/Caches/Yarn/v6/npm-@pmmmwh-react-refresh-webpack-plugin-0.5.6-9ced74cb23dae31ab385f775e237ce4c50422a1d-integrity/node_modules/@pmmmwh/react-refresh-webpack-plugin/types/loader/types.d.ts' -> '/Users/carlosstrand/workspace/carlosstrand/strandgeek/dmedia-manager/web/node_modules/@pmmmwh/react-refresh-webpack-plugin/types/loader/types.d.ts'
+
+npm manifest: 
+  {
+    "name": "dmedia-manager-web",
+    "private": true,
+    "description": "Web packages for dMedia Manager frontend",
+    "keywords": [],
+    "author": "StrandGeek",
+    "workspaces": [
+      "webapp/*",
+      "packages/*"
+    ],
+    "devDependencies": {
+      "lerna": "^4.0.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
