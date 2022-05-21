@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 COPY . .
 # Setup Web
 WORKDIR /usr/src/app/web
-RUN npm install
+RUN npm install --force
 # Setup API & Build App Bundle
 WORKDIR /usr/src/app/api
 RUN npm install && npm run build && npx prisma generate
