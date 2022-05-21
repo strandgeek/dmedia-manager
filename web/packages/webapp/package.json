@@ -28,7 +28,7 @@
     "react": "^18.1.0",
     "react-app-rewired": "^2.2.1",
     "react-awesome-lightbox": "^1.8.1",
-    "react-dmedia-manager": "^1.0.0",
+    "react-dmedia-manager": "^0.0.1",
     "react-dom": "^18.1.0",
     "react-dropzone": "^14.2.1",
     "react-file-icon": "^1.1.0",

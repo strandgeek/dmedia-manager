@@ -27,11 +27,24 @@ export const NETWORKS_NAMES = [
   'ropsten',
   'kovan',
   'rinkeby',
+  'matic_mainnet',
+  'matic_mumbai',
 ];
 
+
+const getNetworkWeb3Url = (networkName: string): string => {
+  if (networkName === 'matic_mainnet') {
+    return 'https://matic-mainnet.chainstacklabs.com'
+  }
+  if (networkName === 'matic_mumbai') {
+    return 'https://matic-mumbai.chainstacklabs.com'
+  }
+  return `https://${networkName}.infura.io/v3/${process.env.INFURA_ETH_PROJECT_ID}`;
+}
+
 const createNetworkWeb3 = (networkName: string): Web3 => new Web3(
-  new Web3.providers.HttpProvider(`https://${networkName}.infura.io/v3/${process.env.INFURA_ETH_PROJECT_ID}`)
-);
+  new Web3.providers.HttpProvider(getNetworkWeb3Url(networkName))
+)
 
 const NETWORKS: {
   mainnet: Web3;

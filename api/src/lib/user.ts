@@ -3,6 +3,7 @@ import { randomUUID } from "crypto";
 import { prisma } from "../db";
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Project, User } from "@prisma/client";
+import { hasMediaAccess } from './accessControl';
 
 
 export const generateUserNonce = async (address: string): Promise<string> => {
@@ -86,5 +87,12 @@ export const getLoggedUser = async (req: Request<any>): Promise<User | null> => 
 export const userHasAccessToProject = async (user: User, project: Project): Promise<boolean> => {
   // Currently checking only if the user is the project owner
   // TODO: Add user whitelist and on-chain interface as well
-  return project.ownerId === user.id;
+  if (project.ownerId === user.id) {
+    return true
+  }
+  const {accessControlContractNetwork, accessControlContractAddress } = project
+  if (accessControlContractNetwork && accessControlContractAddress) {
+    return hasMediaAccess(accessControlContractNetwork, accessControlContractAddress, user.address)
+  }
+  return false;
 }

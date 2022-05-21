@@ -13,6 +13,8 @@ const NETWORKS: any = {
   ropsten: "Ropsten",
   kovan: "Kovan",
   rinkeby: "Rinkeby",
+  matic_mainnet: "Polygon (Mainnet)",
+  matic_mumbai: "Polygon (Mumbai)",
 };
 
 export interface SetupAccessControlModalProps {
