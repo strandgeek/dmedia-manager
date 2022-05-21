@@ -150,6 +150,7 @@ projects.get('/:projectId/medias', async (req: Request, res: Response) => {
     })
     return res.json({ medias });
   } catch (error: any) {
+    console.log(error);
     if (error.message === API_ERRORS.UNAUTHORIZED.key) {
       return sendApiError(res, API_ERRORS.UNAUTHORIZED);
     }
