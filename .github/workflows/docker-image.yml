@@ -25,5 +25,6 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
+          platforms: linux/amd64
           push: true
           tags: strandgeek/dmedia-manager:latest
