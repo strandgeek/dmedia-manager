@@ -7,7 +7,7 @@ This is the react library for integrating [dMedia Manager](https://dmedia-manage
 
 See below the minimal example to integrate the dMedia Manager Picker into your dApp:
 
-```react
+```jsx
 import { MediaPicker, useMediaPicker } from "react-dmedia-manager";
 
 
