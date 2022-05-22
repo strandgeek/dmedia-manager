@@ -109,7 +109,7 @@ export const MediaGallery: FC<MediaGalleryProps> = ({ sidebarFooter, currentMedi
         {...getRootProps()}
       >
         {isDragActive && (
-          <div className="dm-mt-1 sm:dm-mt-0 sm:dm-col-span-2 dm-h-full dm-w-full dm-absolute dm-z-20 bg-[rgba(255,255,255,0.9)] dm-p-2">
+          <div className="dm-mt-1 sm:dm-mt-0 sm:dm-col-span-2 dm-h-full dm-w-full dm-absolute dm-z-20 bg-[rgba(255,255,255,0.9)] dm-p-2 dm-bg-[rgba(255,255,255,0.8)] dm-h-full">
             <div className="dm-flex dm-justify-center dm-px-6 dm-pt-5 dm-pb-6 dm-border-4 dm-border-gray-300 dm-border-dashed dm-rounded-md dm-h-full">
               <div className="dm-space-y-1 dm-text-center dm-flex dm-items-center">
                 <div>
@@ -180,6 +180,7 @@ export const MediaGallery: FC<MediaGalleryProps> = ({ sidebarFooter, currentMedi
                 };
                 return (
                   <MediaCard
+                    key={media.id}
                     isUploading
                     uploadProgress={info.progress}
                     media={media}
@@ -190,6 +191,7 @@ export const MediaGallery: FC<MediaGalleryProps> = ({ sidebarFooter, currentMedi
                 medias.map((media) => {
                   return (
                     <MediaCard
+                      key={media.id}
                       media={media}
                       onClick={() => setCurrentMedia(media)}
                     />

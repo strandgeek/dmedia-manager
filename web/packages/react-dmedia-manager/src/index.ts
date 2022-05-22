@@ -9,4 +9,5 @@ export const UI: {
   MediaGallery,
 }
 
+export * from './hooks/mediaPicker';
 export * from './components/MediaPicker';

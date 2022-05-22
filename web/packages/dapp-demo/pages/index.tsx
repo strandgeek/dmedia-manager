@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
-import { MediaPicker } from "react-dmedia-manager";
+import { MediaPicker, useMediaPicker } from "react-dmedia-manager";
 import { useCallback, useState } from "react";
 import { Media } from "react-dmedia-manager/lib/esm/types/media";
 import { MediaPreview } from "./components/MediaPreview";
@@ -15,7 +15,6 @@ if (typeof window !== "undefined") {
 }
 
 const Home: NextPage = () => {
-  const [media, setMedia] = useState<Media | null>(null);
   const [web3, setWeb3] = useState<Web3>();
   const connectWallet = useCallback(async function () {
     try {
@@ -29,26 +28,29 @@ const Home: NextPage = () => {
       console.error("Could not connect to Web3 Provider");
     }
   }, []);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
-  const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || '';
+  const { mediaPicker } = useMediaPicker({
+    web3,
+    apiUrl: process.env.NEXT_PUBLIC_API_URL || "",
+    projectId: process.env.NEXT_PUBLIC_PROJECT_ID || "",
+  });
   return (
     <div className="w-screen h-screen flex items-center justify-center">
       <div>
-        {media && (
+        {mediaPicker.selectedMedia && (
           <div className="mb-4">
-            <MediaPreview media={media} />
+            <MediaPreview media={mediaPicker.selectedMedia} />
           </div>
         )}
         {web3 ? (
           <>
-            <MediaPicker
-              apiUrl={apiUrl}
-              projectId={projectId}
-              web3={web3}
-              onMediaSelect={(media) => {
-                setMedia(media);
-              }}
-            />
+            <button
+              type="button"
+              onClick={() => mediaPicker.open()}
+              className="items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Select Media...
+            </button>
+            <MediaPicker mediaPicker={mediaPicker} />
           </>
         ) : (
           <>
