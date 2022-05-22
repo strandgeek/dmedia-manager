@@ -27,14 +27,16 @@ export const MenuSidebar: FC<MenuSidebarProps> = ({ mobileMenuOpen, setMobileMen
   ];
   return (
     <>
-      <div className="hidden w-28 bg-indigo-700 overflow-y-auto md:block">
+      <div className="hidden w-28 bg-[#6B53FF] overflow-y-auto md:block">
         <div className="w-full py-6 flex flex-col items-center">
           <div className="flex-shrink-0 flex items-center">
-            <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white"
-              alt="Workflow"
-            />
+            <a href="/">
+              <img
+                className="h-8 w-auto"
+                src="/menu-logo.png"
+                alt="Workflow"
+              />
+            </a>
           </div>
           <div className="flex-1 mt-6 w-full px-2 space-y-1">
             {navigation.map((item) => (
@@ -43,8 +45,8 @@ export const MenuSidebar: FC<MenuSidebarProps> = ({ mobileMenuOpen, setMobileMen
                 to={item.href}
                 className={classNames(
                   item.current
-                    ? "bg-indigo-800 text-white"
-                    : "text-indigo-100 hover:bg-indigo-800 hover:text-white",
+                    ? "bg-[#593fff] text-white"
+                    : "text-indigo-100 hover:bg-[#593fff] hover:text-white",
                   "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
                 )}
                 aria-current={item.current ? "page" : undefined}
@@ -92,7 +94,7 @@ export const MenuSidebar: FC<MenuSidebarProps> = ({ mobileMenuOpen, setMobileMen
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <div className="relative max-w-xs w-full bg-indigo-700 pt-5 pb-4 flex-1 flex flex-col">
+            <div className="relative max-w-xs w-full bg-[#593fff] pt-5 pb-4 flex-1 flex flex-col">
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-300"
@@ -129,8 +131,8 @@ export const MenuSidebar: FC<MenuSidebarProps> = ({ mobileMenuOpen, setMobileMen
                         href={item.href}
                         className={classNames(
                           item.current
-                            ? "bg-indigo-800 text-white"
-                            : "text-indigo-100 hover:bg-indigo-800 hover:text-white",
+                            ? "bg-[#593fff] text-white"
+                            : "text-indigo-100 hover:bg-[#593fff] hover:text-white",
                           "group py-2 px-3 rounded-md flex items-center text-sm font-medium"
                         )}
                         aria-current={item.current ? "page" : undefined}

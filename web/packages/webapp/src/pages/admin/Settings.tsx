@@ -37,7 +37,7 @@ export const AdminSettings = () => {
             <DescriptionListItem label="Platforms">
               <ul>
                 <li className="mb-4">
-                  <a href="" className="flex items-center text-blue-500">
+                  <a target="_blank" href="https://www.npmjs.com/package/react-dmedia-manager" className="flex items-center text-blue-500" rel="noreferrer">
                     React
                     <ExternalLinkIcon className="w-4 h-4 ml-1" />
                   </a>
@@ -74,7 +74,6 @@ export const AdminSettings = () => {
                       <PencilIcon className="h-4 w-4 text-gray-500"/>
                     </button>
                   </div>
-                  {/* TODO: Create Smart Contract Configuration Wizzard */}
                 </DescriptionListItem>
               </>
             ) : (

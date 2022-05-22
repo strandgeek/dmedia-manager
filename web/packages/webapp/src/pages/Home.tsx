@@ -5,11 +5,6 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useWeb3 } from "../hooks/useWeb3";
 import { useNavigate } from "react-router-dom";
 
-const navigation = [
-  { name: "FAQ", href: "#" },
-  { name: "Contact", href: "#" },
-];
-
 export const Home = () => {
   const { signAuth } = useWeb3();
   const navigate = useNavigate()
@@ -102,7 +97,7 @@ export const Home = () => {
                       <span className="sr-only">Workflow</span>
                       <img
                         className="h-8 w-auto sm:h-10"
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                        src="/logo.png"
                         alt=""
                       />
                     </a>
@@ -115,15 +110,6 @@ export const Home = () => {
                   </div>
                 </div>
                 <div className="hidden md:flex md:space-x-10">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="font-medium text-gray-500 hover:text-gray-900"
-                    >
-                      {item.name}
-                    </a>
-                  ))}
                 </div>
                 <div className="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
                   <span className="inline-flex rounded-md shadow">
@@ -168,15 +154,6 @@ export const Home = () => {
                     </div>
                   </div>
                   <div className="px-2 pt-2 pb-3 space-y-1">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-                      >
-                        {item.name}
-                      </a>
-                    ))}
                   </div>
                   <button
                     onClick={onConnectWalletClick}
@@ -220,7 +197,7 @@ export const Home = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <img
               className="relative rounded-lg shadow-lg"
-              src="https://place-hold.it/1200x800"
+              src="/preview-v3.png"
               alt="App screenshot"
             />
           </div>

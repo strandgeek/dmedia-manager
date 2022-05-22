@@ -39,6 +39,6 @@ export const MyPickerMediaComp = ({ web3 }) => {
 
 | Prop      | Description                                                                                |
 |-----------|--------------------------------------------------------------------------------------------|
-| web3      | Web3 instanced used in your dApp. It'll be used to request a signature for authentication. |
+| web3      | Web3 instance used in your dApp. It'll be used to request a signature for authentication. |
 | apiUrl    | dMedia Manager API URL                                                                     |
 | projectId | Your project ID from dMedia Manager                                                        |

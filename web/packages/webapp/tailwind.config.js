@@ -1,4 +1,5 @@
 module.exports = {
+  important: '#dmediamanager-admin',
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
     "./public/**.*.{html,js}"

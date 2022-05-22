@@ -49,7 +49,7 @@ export const InvalidContractAlert: React.FC = () => (
       </div>
       <p className="mt-2 text-sm text-yellow-700">
         Please make sure you selected the right network and the contract implements {' '}
-        <a href="#" className="font-medium underline text-yellow-700 hover:text-yellow-600">
+        <a href="https://strand-geek.gitbook.io/dmedia-manager/access-control/access-control-interface" target="_blank" className="font-medium underline text-yellow-700 hover:text-yellow-600" rel="noreferrer">
           the Access Control Interface
         </a>
       </p>
@@ -159,7 +159,7 @@ export const SetupAccessControlModal: FC<SetupAccessControlModalProps> = ({
                     <p className="text-sm text-gray-500">
                       Select the network and configure the contract address that
                       implements the{" "}
-                      <a href="" className="inline items-center text-blue-500">
+                      <a href="https://strand-geek.gitbook.io/dmedia-manager/access-control/access-control-interface" target="_blank" className="inline items-center text-blue-500" rel="noreferrer">
                         access control interface
                       </a>
                     </p>
